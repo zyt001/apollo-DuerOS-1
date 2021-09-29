@@ -2075,6 +2075,7 @@ id cache_measures
 id cancel_button
 id car_speed_02
 id car_speed_10
+id car_speed_80
 id carlife_msg_text_view
 id center
 id center_horizontal

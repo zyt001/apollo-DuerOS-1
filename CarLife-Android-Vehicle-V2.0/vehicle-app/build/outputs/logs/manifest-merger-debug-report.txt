@@ -4,7 +4,7 @@ ADDED from /Users/wangchangming01/Documents/code/apollo-DuerOS/CarLife-Android-V
 INJECTED from /Users/wangchangming01/Documents/code/apollo-DuerOS/CarLife-Android-Vehicle-V2.0/vehicle-app/src/main/AndroidManifest.xml:2:1-58:12
 INJECTED from /Users/wangchangming01/Documents/code/apollo-DuerOS/CarLife-Android-Vehicle-V2.0/vehicle-app/src/main/AndroidManifest.xml:2:1-58:12
 INJECTED from /Users/wangchangming01/Documents/code/apollo-DuerOS/CarLife-Android-Vehicle-V2.0/vehicle-app/src/main/AndroidManifest.xml:2:1-58:12
-MERGED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:2:1-32:12
+MERGED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:2:1-32:12
 MERGED from [androidx.preference:preference-ktx:1.1.1] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/7d639268c8d8cbc9531e870f8bab82e5/jetified-preference-ktx-1.1.1/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.fragment:fragment-ktx:1.2.4] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/927ce619ab9b8fa846ebd6e73b6248a6/jetified-fragment-ktx-1.2.4/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.activity:activity-ktx:1.1.0] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/dab03ed386324a0fb9df59f7f6c77a84/jetified-activity-ktx-1.1.0/AndroidManifest.xml:17:1-24:12
@@ -80,20 +80,20 @@ ADDED from /Users/wangchangming01/Documents/code/apollo-DuerOS/CarLife-Android-V
 		ADDED from /Users/wangchangming01/Documents/code/apollo-DuerOS/CarLife-Android-Vehicle-V2.0/vehicle-app/src/main/AndroidManifest.xml:8:22-76
 uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from /Users/wangchangming01/Documents/code/apollo-DuerOS/CarLife-Android-Vehicle-V2.0/vehicle-app/src/main/AndroidManifest.xml:9:5-79
-MERGED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:12:5-79
-MERGED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:12:5-79
+MERGED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:12:5-79
+MERGED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:12:5-79
 	android:name
 		ADDED from /Users/wangchangming01/Documents/code/apollo-DuerOS/CarLife-Android-Vehicle-V2.0/vehicle-app/src/main/AndroidManifest.xml:9:22-76
 uses-permission#android.permission.ACCESS_FINE_LOCATION
 ADDED from /Users/wangchangming01/Documents/code/apollo-DuerOS/CarLife-Android-Vehicle-V2.0/vehicle-app/src/main/AndroidManifest.xml:10:5-79
-MERGED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:11:5-79
-MERGED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:11:5-79
+MERGED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:11:5-79
+MERGED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:11:5-79
 	android:name
 		ADDED from /Users/wangchangming01/Documents/code/apollo-DuerOS/CarLife-Android-Vehicle-V2.0/vehicle-app/src/main/AndroidManifest.xml:10:22-76
 uses-permission#android.permission.INTERNET
 ADDED from /Users/wangchangming01/Documents/code/apollo-DuerOS/CarLife-Android-Vehicle-V2.0/vehicle-app/src/main/AndroidManifest.xml:12:5-67
-MERGED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:18:5-67
-MERGED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:18:5-67
+MERGED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:18:5-67
+MERGED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:18:5-67
 	android:name
 		ADDED from /Users/wangchangming01/Documents/code/apollo-DuerOS/CarLife-Android-Vehicle-V2.0/vehicle-app/src/main/AndroidManifest.xml:12:22-64
 uses-feature#android.hardware.usb.host
@@ -120,8 +120,8 @@ ADDED from /Users/wangchangming01/Documents/code/apollo-DuerOS/CarLife-Android-V
 		ADDED from /Users/wangchangming01/Documents/code/apollo-DuerOS/CarLife-Android-Vehicle-V2.0/vehicle-app/src/main/AndroidManifest.xml:21:22-80
 application
 ADDED from /Users/wangchangming01/Documents/code/apollo-DuerOS/CarLife-Android-Vehicle-V2.0/vehicle-app/src/main/AndroidManifest.xml:23:5-56:19
-MERGED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:20:5-30:19
-MERGED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:20:5-30:19
+MERGED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:20:5-30:19
+MERGED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:20:5-30:19
 MERGED from [com.google.android.material:material:1.3.0] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/135cc2499382de4f0333427e96179acb/material-1.3.0/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.3.0] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/135cc2499382de4f0333427e96179acb/material-1.3.0/AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/6a6804d4e88a5701651c972824102ef2/constraintlayout-2.0.4/AndroidManifest.xml:9:5-20
@@ -143,7 +143,7 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/wang
 	android:allowBackup
 		ADDED from /Users/wangchangming01/Documents/code/apollo-DuerOS/CarLife-Android-Vehicle-V2.0/vehicle-app/src/main/AndroidManifest.xml:25:9-35
 	android:networkSecurityConfig
-		ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:20:18-78
+		ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:20:18-78
 	android:name
 		ADDED from /Users/wangchangming01/Documents/code/apollo-DuerOS/CarLife-Android-Vehicle-V2.0/vehicle-app/src/main/AndroidManifest.xml:24:9-43
 activity#com.baidu.carlifevehicle.CarlifeActivity
@@ -198,8 +198,8 @@ uses-sdk
 INJECTED from /Users/wangchangming01/Documents/code/apollo-DuerOS/CarLife-Android-Vehicle-V2.0/vehicle-app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/wangchangming01/Documents/code/apollo-DuerOS/CarLife-Android-Vehicle-V2.0/vehicle-app/src/main/AndroidManifest.xml
 INJECTED from /Users/wangchangming01/Documents/code/apollo-DuerOS/CarLife-Android-Vehicle-V2.0/vehicle-app/src/main/AndroidManifest.xml
-MERGED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:7:5-9:41
-MERGED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:7:5-9:41
+MERGED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:7:5-9:41
+MERGED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:7:5-9:41
 MERGED from [androidx.preference:preference-ktx:1.1.1] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/7d639268c8d8cbc9531e870f8bab82e5/jetified-preference-ktx-1.1.1/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.preference:preference-ktx:1.1.1] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/7d639268c8d8cbc9531e870f8bab82e5/jetified-preference-ktx-1.1.1/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.fragment:fragment-ktx:1.2.4] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/927ce619ab9b8fa846ebd6e73b6248a6/jetified-fragment-ktx-1.2.4/AndroidManifest.xml:20:5-22:41
@@ -295,40 +295,40 @@ INJECTED from /Users/wangchangming01/Documents/code/apollo-DuerOS/CarLife-Androi
 		ADDED from /Users/wangchangming01/Documents/code/apollo-DuerOS/CarLife-Android-Vehicle-V2.0/vehicle-app/src/main/AndroidManifest.xml
 		INJECTED from /Users/wangchangming01/Documents/code/apollo-DuerOS/CarLife-Android-Vehicle-V2.0/vehicle-app/src/main/AndroidManifest.xml
 uses-permission#android.permission.BLUETOOTH
-ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:13:5-68
+ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:13:5-68
 	android:name
-		ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:13:22-65
+		ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:13:22-65
 uses-permission#android.permission.BLUETOOTH_ADMIN
-ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:14:5-74
+ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:14:5-74
 	android:name
-		ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:14:22-71
+		ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:14:22-71
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
-ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:15:5-80
+ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:15:5-80
 	android:name
-		ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:15:22-77
+		ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:15:22-77
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:16:5-81
+ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:16:5-81
 	android:name
-		ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:16:22-78
+		ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:16:22-78
 uses-permission#android.permission.FOREGROUND_SERVICE
-ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:17:5-77
+ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:17:5-77
 	android:name
-		ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:17:22-74
+		ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:17:22-74
 service#com.baidu.carlife.sdk.sender.CarLifeSenderService
-ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:21:9-24:63
+ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:21:9-24:63
 	android:exported
-		ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:23:13-36
+		ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:23:13-36
 	android:foregroundServiceType
-		ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:24:13-60
+		ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:24:13-60
 	android:name
-		ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:22:13-77
+		ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:22:13-77
 service#com.baidu.carlife.sdk.receiver.CarLifeReceiverService
-ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:25:9-89
+ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:25:9-89
 	android:name
-		ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:25:18-86
+		ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:25:18-86
 activity#com.baidu.carlife.sdk.sender.display.impl.screencapture.MediaProjectionRequestActivity
-ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:27:9-29:86
+ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:27:9-29:86
 	android:theme
-		ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:29:13-83
+		ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:29:13-83
 	android:name
-		ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/975f30ae3987c9d786525a4cd27dc92d/jetified-carlife-sdk-release/AndroidManifest.xml:28:13-114
+		ADDED from [:carlife-sdk-release:] /Users/wangchangming01/.gradle/caches/transforms-2/files-2.1/9010d6158f1a68e375bb5ab0b65e8962/jetified-carlife-sdk-release/AndroidManifest.xml:28:13-114
