@@ -81,7 +81,7 @@ public class ExceptionFragment extends BaseFragment implements OnClickListener {
         }
 
         // adapt for EL_AFTER_MARKET
-        if (CommonParams.VEHICLE_CHANNEL.equals(CommonParams.VEHICLE_CHANNEL_EL_AFTER_MARKET)) {
+        if (CommonParams.vehicleChannel.equals(CommonParams.VEHICLE_CHANNEL_EL_AFTER_MARKET)) {
             mStartAppBtn.setVisibility(View.GONE);
             mStartAppBtn = null;
             changeUILayout();
@@ -127,7 +127,7 @@ public class ExceptionFragment extends BaseFragment implements OnClickListener {
         }
         switch (v.getId()) {
             case R.id.exception_start_app_btn:
-                //TODO 点击按钮去发送消息给手机端，把手机端carlife切换到前台，IOS和Android处理方式不一样，这里需分开处理
+                // TODO 点击按钮去发送消息给手机端，把手机端carlife切换到前台，IOS和Android处理方式不一样，这里需分开处理
                 MsgHandlerCenter.dispatchMessage(CommonParams.MSG_MAIN_DISPLAY_TOUCH_FRAGMENT);
                 break;
 

@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
 import android.util.Log
+import com.baidu.carlife.sdk.CarLifeContext
 import com.baidu.carlife.sdk.Configs.*
 import com.baidu.carlife.sdk.Constants
 import com.baidu.carlife.sdk.receiver.CarLife
@@ -19,8 +20,14 @@ class VehicleApplication : Application() {
 
     var vehicleBind: VehicleService.VehicleBind? = null
 
+    companion object {
+        lateinit var app: Application
+    }
+
+
     override fun onCreate() {
         super.onCreate()
+        app = this
         CarlifeConfUtil.getInstance().init()
         initReceiver()
         bindVehicleService()
@@ -39,24 +46,30 @@ class VehicleApplication : Application() {
 
         val features = mapOf(
             FEATURE_CONFIG_USB_MTU to 16 * 1024,
-            FEATURE_CONFIG_I_FRAME_INTERVAL to 300
+            FEATURE_CONFIG_I_FRAME_INTERVAL to 300,
+            FEATURE_CONFIG_CONNECT_TYPE to CarLifeContext.CONNECTION_TYPE_AOA
         )
 
         val configs = mapOf(
             CONFIG_LOG_LEVEL to Log.DEBUG,
             CONFIG_CONTENT_ENCRYPTION to true,
             CONFIG_USE_ASYNC_USB_MODE to false,
-            CONFIG_PROTOCOL_VERSION to 3
+            CONFIG_PROTOCOL_VERSION to 4,
+            CONFIG_TARGET_BLUETOOTH_NAME to "Box1"
         )
 
-        Log.d(Constants.TAG, "VehicleApplication initReceiver $screenWidth, $screenHeight $displaySpec")
+        Log.d(
+            Constants.TAG,
+            "VehicleApplication initReceiver $screenWidth, $screenHeight $displaySpec"
+        )
         CarLife.init(
             this,
             "20029999",
             "12345678",
             features,
             CarlifeActivity::class.java,
-            configs)
+            configs
+        )
         VoiceManager.init(CarLife.receiver())
         CarLife.receiver().setDisplaySpec(displaySpec)
 

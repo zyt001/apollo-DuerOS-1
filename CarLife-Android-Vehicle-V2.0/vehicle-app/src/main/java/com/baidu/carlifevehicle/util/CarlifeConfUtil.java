@@ -21,12 +21,14 @@ import android.text.TextUtils;
 
 import com.baidu.carlife.sdk.Configs;
 import com.baidu.carlife.sdk.util.Logger;
+import com.baidu.carlifevehicle.VehicleApplication;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -55,15 +57,15 @@ public class CarlifeConfUtil {
     /**
      *  How many audio tracks Carlife Vehicle will apply for Music and TTS playback
      */
-    public static int VALUE_INT_AUDIO_TRACK_NUM = 2;
+    public static int valueIntAudioTrackNum = 2;
     /**
      * Audio track stream type for TTS channel
      */
-    public static int VALUE_INT_AUDIO_TRACK_STREAM_TYPE = AudioManager.STREAM_MUSIC;
+    public static int valueIntAudioTrackStreamType = AudioManager.STREAM_MUSIC;
     /**
      * Whether or not require audio focus when playing back TTS
      */
-    public static boolean VALUE_BOOL_AUDIO_FOCUS_REQUIRED = false;
+    public static boolean valueBoolAudioFocusRequired = false;
     /**
      * 0 normal stereo(luchang, huayang, feige) <br/>
      * 1 mono(zhangxun) <br/>
@@ -71,100 +73,100 @@ public class CarlifeConfUtil {
      * 3 customized stereo(changan) <br/>
      * 4 baidu stereo <br/>
      */
-    public static int VALUE_INT_AUDIO_TRACK_TYPE = 0;
+    public static int valueIntAudioTrackType = 0;
     /**
      * 0 head unit mic <br/>
      * 1 mobile device mic<br/>
      * 2 not supported <br/>
      */
-    public static int VALUE_INT_VOICE_MIC = 0;
+    public static int valueIntVoiceMic = 0;
     /**
      * whether support voice wake up
      */
-    public static int VALUE_INT_VOICE_WAKEUP = 1;
+    public static int valueIntVoiceWakeup = 1;
     /**
      * if set to true, the wait time for input2Decoder is 1000 ms
      */
-    public static boolean VALUE_BOOL_NEED_MORE_DECODE_TIME = false;
+    public static boolean valueBoolNeedMoreDecodeTime = false;
     /**
      * whether support internal ui
      */
-    public static int VALUE_INT_BLUETOOTH_INTERNAL_UI = 0;
+    public static int valueIntBluetoothInternalUi = 0;
     /**
      * whether support bluetooth auto pair
      */
-    public static int VALUE_INT_BLUETOOTH_AUTO_PAIR = 0;
+    public static int valueIntBluetoothAutoPair = 0;
     /**
      * whether send touch event to mobile device
      */
-    public static boolean VALUE_BOOL_TRANSPARENT_SEND_TOUCH_EVENT = true;
+    public static boolean valueBoolTransparentSendTouchEvent = true;
     /**
      * whether send {@link android.view.MotionEvent#ACTION_DOWN} as the first touch event
      */
-    public static boolean VALUE_BOOL_SEND_ACTION_DOWN = false;
+    public static boolean valueBoolSendActionDown = false;
     /**
      * whether use vehicle gps
      */
-    public static boolean VALUE_BOOL_VEHICLE_GPS = false;
+    public static boolean valueBoolVehicleGps = false;
     /**
      * gps format
      */
-    public static int VALUE_INT_GPS_FORMAT = 1;
+    public static int valueIntGpsFormat = 1;
     /**
      * whether support focus ui
      */
-    public static int VALUE_INT_FOCUS_UI = 1;
+    public static int valueIntFocusUi = 1;
     /**
      * 0 according to mobile device <br/>
      * 1 48k
      */
-    public static int VALUE_INT_MEDIA_SAMPLE_RATE = 0;
+    public static int valueIntMediaSampleRate = 0;
     /**
      * android device connect type: <br/>
      * 0 adb <br/>
      * 1 aoa
      */
-    public static int VALUE_INT_CONNECT_TYPE_ANDROID = 1;
+    public static int valueIntConnectTypeAndroid = 1;
     /**
      * apple device connect type: <br/>
      * 0 ncm <br/>
      * 1 wifi <br/>
      * 2 ncm & wifi
      */
-    public static int VALUE_INT_CONNECT_TYPE_IPHONE = 4;
+    public static int valueIntConnectTypeIphone = 4;
     /**
      * apple device usb connect type: <br/>
      * 0 ipv6 <br/>
      * 1 ipv4 <br/>
      * 2 usb sharing
      */
-    public static int VALUE_INT_IPHONE_USB_CONNECT_TYPE = 0;
+    public static int valueIntIphoneUsbConnectType = 0;
 
-    public static String VALUE_STRING_IPHONE_NCM_ETHERNET_NAME = "usb0";
+    public static String valueStringIphoneNcmEthernetName = "usb0";
 
     /**
      * media stream type: <br/>
      * 0 specific tcp channel <br/>
      * 1 bluetooth
      */
-    public static int VALUE_INT_AUDIO_TRANSMISSION_MODE = 0;
+    public static int valueIntAudioTransmissionMode = 0;
 
     /**
      * whether support encryption
      */
-    public static boolean VALUE_CONTENT_ENCRYPTION = false;
+    public static boolean valueContentEncryption = false;
 
     /**
      * car power type: <br/>
      * 0 oil <br/>
      * 1 electric
      */
-    public static int VALUE_ENGINE_TYPE = 0;
+    public static int valueEngineType = 0;
 
     /**
      * whether to disable input, 1 for disable
      */
-    public static int VALUE_IS_INPUT_DISABLE = 1;
+    public static int valueIsInputDisable = 1;
 
     /**
      * 车机端支持的无线连接类型
@@ -173,40 +175,40 @@ public class CarlifeConfUtil {
      * 2 直连 <br/>
      * 3 都支持 <br/>
      */
-    public static int VALUE_INT_WIRLESS_TYPE = 0;
+    public static int valueIntWirlessType = 0;
 
     /**
      * 车机端支持的无线连接频率
      * 0 2.4G <br/>
      * 1 5G <br/>
      */
-    public static int VALUE_INT_WIRLESS_FREQUENCY = 0;
+    public static int valueIntWirlessFrequency = 0;
 
     /**
      * 蓝牙音频是否支持
      * false 不支持 <br/>
      * true 支持 <br/>
      */
-    public static boolean VALUE_BOOL_USE_BT_AUDIO = false;
+    public static boolean valueBoolUseBtAudio = false;
 
     /**
      * 车机端Wi-Fi直连的名称
      * 仅供测试使用
      */
-    public static String VALUE_STRING_WIFI_DIRECT_NAME = "";
+    public static String valueStringWifiDirectName = "";
 
     /**
      * 手机端蓝牙名称
      * 仅供测试使用
      */
-    public static String VALUE_STRING_TARGET_BLUETOOTH_NAME = "";
+    public static String valueStringTargetBluetoothName = "";
 
     /**
      * 是否需要保存音频源文件
      * false 不保存 <br/>
      * true 保存 <br/>
      */
-    public static boolean VALUE_BOOL_SAVE_AUDIO_FILE = false;
+    public static boolean valueBoolSaveAudioFile = false;
 
 
 
@@ -325,13 +327,13 @@ public class CarlifeConfUtil {
                 }
                 if (!TextUtils.isEmpty(channelId)) {
                     Logger.e(TAG, "read channel id form bdcf: " + channelId);
-                    CommonParams.VEHICLE_CHANNEL = channelId;
+                    CommonParams.vehicleChannel = channelId;
                 } else {
                     Logger.e(TAG, "read channel id form bdcf fail");
                     isReadConfSuccess = false;
                     return;
                 }
-                Logger.e(TAG, "channel = " + CommonParams.VEHICLE_CHANNEL);
+                Logger.e(TAG, "channel = " + CommonParams.vehicleChannel);
 
                 if (updateProperty()) {
                     Logger.d(TAG, "update property success");
@@ -355,8 +357,8 @@ public class CarlifeConfUtil {
         int linenum = 1;
 
         try {
-            bdcf = new File(CONF_FILE_DIR + "/" + CONF_FILE);
-            reader = new BufferedReader(new FileReader(bdcf));
+            InputStream ip = VehicleApplication.app.getResources().getAssets().open(CONF_FILE);
+            reader = new BufferedReader(new InputStreamReader(ip));
             propertyMap = new HashMap<String, String>();
 
             while ((line = reader.readLine()) != null) {
@@ -408,133 +410,133 @@ public class CarlifeConfUtil {
                 Logger.e(TAG, "Android phones only support AOA connections");
             }
             if (propertyMap.containsKey(KEY_INT_CONNECT_TYPE_IPHONE)) {
-                VALUE_INT_CONNECT_TYPE_IPHONE = getIntFromMap(KEY_INT_CONNECT_TYPE_IPHONE);
-                Logger.e(TAG, "VALUE_INT_CONNECT_TYPE_IPHONE = " + VALUE_INT_CONNECT_TYPE_IPHONE);
+                valueIntConnectTypeIphone = getIntFromMap(KEY_INT_CONNECT_TYPE_IPHONE);
+                Logger.e(TAG, "VALUE_INT_CONNECT_TYPE_IPHONE = " + valueIntConnectTypeIphone);
             }
             if (propertyMap.containsKey(KEY_INT_IPHONE_USB_CONNECT_TYPE)) {
-                VALUE_INT_IPHONE_USB_CONNECT_TYPE = getIntFromMap(KEY_INT_IPHONE_USB_CONNECT_TYPE);
-                Logger.e(TAG, "VALUE_INT_IPHONE_USB_CONNECT_TYPE = " + VALUE_INT_IPHONE_USB_CONNECT_TYPE);
+                valueIntIphoneUsbConnectType = getIntFromMap(KEY_INT_IPHONE_USB_CONNECT_TYPE);
+                Logger.e(TAG, "VALUE_INT_IPHONE_USB_CONNECT_TYPE = " + valueIntIphoneUsbConnectType);
             }
             if (propertyMap.containsKey(KEY_STRING_IPHONE_NCM_ETHERNET_NAME)) {
-                VALUE_STRING_IPHONE_NCM_ETHERNET_NAME = getStringFromMap(KEY_STRING_IPHONE_NCM_ETHERNET_NAME);
-                Logger.e(TAG, "VALUE_STRING_IPHONE_NCM_ETHERNET_NAME = " + VALUE_STRING_IPHONE_NCM_ETHERNET_NAME);
+                valueStringIphoneNcmEthernetName = getStringFromMap(KEY_STRING_IPHONE_NCM_ETHERNET_NAME);
+                Logger.e(TAG, "VALUE_STRING_IPHONE_NCM_ETHERNET_NAME = " + valueStringIphoneNcmEthernetName);
             }
             if (propertyMap.containsKey(KEY_INT_AUDIO_TRACK_NUM)) {
-                VALUE_INT_AUDIO_TRACK_NUM = getIntFromMap(KEY_INT_AUDIO_TRACK_NUM);
-                Logger.d(TAG, "VALUE_INT_AUDIO_TRACK_NUM = " + VALUE_INT_AUDIO_TRACK_NUM);
+                valueIntAudioTrackNum = getIntFromMap(KEY_INT_AUDIO_TRACK_NUM);
+                Logger.d(TAG, "VALUE_INT_AUDIO_TRACK_NUM = " + valueIntAudioTrackNum);
             }
 
             if (propertyMap.containsKey(KEY_INT_AUDIO_TRACK_TYPE)) {
-                VALUE_INT_AUDIO_TRACK_TYPE = getIntFromMap(KEY_INT_AUDIO_TRACK_TYPE);
-                Logger.d(TAG, "VALUE_INT_AUDIO_TRACK_TYPE = " + VALUE_INT_AUDIO_TRACK_TYPE);
+                valueIntAudioTrackType = getIntFromMap(KEY_INT_AUDIO_TRACK_TYPE);
+                Logger.d(TAG, "VALUE_INT_AUDIO_TRACK_TYPE = " + valueIntAudioTrackType);
             }
             if (propertyMap.containsKey(KEY_INT_AUDIO_TRACK_NUM)) {
-                VALUE_INT_AUDIO_TRACK_NUM = getIntFromMap(KEY_INT_AUDIO_TRACK_NUM);
-                Logger.d(TAG, "VALUE_INT_AUDIO_TRACK_NUM = " + VALUE_INT_AUDIO_TRACK_NUM);
+                valueIntAudioTrackNum = getIntFromMap(KEY_INT_AUDIO_TRACK_NUM);
+                Logger.d(TAG, "VALUE_INT_AUDIO_TRACK_NUM = " + valueIntAudioTrackNum);
             }
             if (propertyMap.containsKey(KEY_INT_AUDIO_TRACK_STREAM_TYPE)) {
-                VALUE_INT_AUDIO_TRACK_STREAM_TYPE = getIntFromMap(KEY_INT_AUDIO_TRACK_STREAM_TYPE);
-                Logger.d(TAG, "VALUE_INT_AUDIO_TRACK_STREAM_TYPE = " + VALUE_INT_AUDIO_TRACK_STREAM_TYPE);
+                valueIntAudioTrackStreamType = getIntFromMap(KEY_INT_AUDIO_TRACK_STREAM_TYPE);
+                Logger.d(TAG, "VALUE_INT_AUDIO_TRACK_STREAM_TYPE = " + valueIntAudioTrackStreamType);
             }
             if (propertyMap.containsKey(KEY_BOOL_TTS_REQUEST_AUDIO_FOCUS)) {
-                VALUE_BOOL_AUDIO_FOCUS_REQUIRED = getBooleanFromMap(KEY_BOOL_TTS_REQUEST_AUDIO_FOCUS);
-                Logger.d(TAG, "VALUE_BOOL_AUDIO_FOCUS_REQUIRED = " + VALUE_BOOL_AUDIO_FOCUS_REQUIRED);
+                valueBoolAudioFocusRequired = getBooleanFromMap(KEY_BOOL_TTS_REQUEST_AUDIO_FOCUS);
+                Logger.d(TAG, "VALUE_BOOL_AUDIO_FOCUS_REQUIRED = " + valueBoolAudioFocusRequired);
             }
 
             if (propertyMap.containsKey(Configs.FEATURE_CONFIG_VOICE_MIC)) {
-                VALUE_INT_VOICE_MIC = getIntFromMap(Configs.FEATURE_CONFIG_VOICE_MIC);
-                Logger.d(TAG, "VALUE_INT_VOICE_MIC = " + VALUE_INT_VOICE_MIC);
+                valueIntVoiceMic = getIntFromMap(Configs.FEATURE_CONFIG_VOICE_MIC);
+                Logger.d(TAG, "VALUE_INT_VOICE_MIC = " + valueIntVoiceMic);
             }
             if (propertyMap.containsKey(Configs.FEATURE_CONFIG_VOICE_WAKEUP)) {
-                VALUE_INT_VOICE_WAKEUP = getIntFromMap(Configs.FEATURE_CONFIG_VOICE_WAKEUP);
-                Logger.d(TAG, "VALUE_INT_VOICE_WAKEUP = " + VALUE_INT_VOICE_WAKEUP);
+                valueIntVoiceWakeup = getIntFromMap(Configs.FEATURE_CONFIG_VOICE_WAKEUP);
+                Logger.d(TAG, "VALUE_INT_VOICE_WAKEUP = " + valueIntVoiceWakeup);
             }
             if (propertyMap.containsKey(KEY_BOOL_NEED_MORE_DECODE_TIME)) {
-                VALUE_BOOL_NEED_MORE_DECODE_TIME = getBooleanFromMap(KEY_BOOL_NEED_MORE_DECODE_TIME);
-                Logger.d(TAG, "VALUE_BOOL_NEED_MORE_DECODE_TIME = " + VALUE_BOOL_NEED_MORE_DECODE_TIME);
+                valueBoolNeedMoreDecodeTime = getBooleanFromMap(KEY_BOOL_NEED_MORE_DECODE_TIME);
+                Logger.d(TAG, "VALUE_BOOL_NEED_MORE_DECODE_TIME = " + valueBoolNeedMoreDecodeTime);
             }
             if (propertyMap.containsKey(Configs.FEATURE_CONFIG_BLUETOOTH_INTERNAL_UI)) {
-                VALUE_INT_BLUETOOTH_INTERNAL_UI = getIntFromMap(Configs.FEATURE_CONFIG_BLUETOOTH_INTERNAL_UI);
-                Logger.d(TAG, "VALUE_INT_BLUETOOTH_INTERNAL_UI = " + VALUE_INT_BLUETOOTH_INTERNAL_UI);
+                valueIntBluetoothInternalUi = getIntFromMap(Configs.FEATURE_CONFIG_BLUETOOTH_INTERNAL_UI);
+                Logger.d(TAG, "VALUE_INT_BLUETOOTH_INTERNAL_UI = " + valueIntBluetoothInternalUi);
             }
             if (propertyMap.containsKey(Configs.FEATURE_CONFIG_BLUETOOTH_AUTO_PAIR)) {
-                VALUE_INT_BLUETOOTH_AUTO_PAIR = getIntFromMap(Configs.FEATURE_CONFIG_BLUETOOTH_AUTO_PAIR);
-                Logger.d(TAG, "VALUE_INT_BLUETOOTH_AUTO_PAIR = " + VALUE_INT_BLUETOOTH_AUTO_PAIR);
+                valueIntBluetoothAutoPair = getIntFromMap(Configs.FEATURE_CONFIG_BLUETOOTH_AUTO_PAIR);
+                Logger.d(TAG, "VALUE_INT_BLUETOOTH_AUTO_PAIR = " + valueIntBluetoothAutoPair);
             }
             if (propertyMap.containsKey(KEY_BOOL_TRANSPARENT_SEND_TOUCH_EVENT)) {
-                VALUE_BOOL_TRANSPARENT_SEND_TOUCH_EVENT = getBooleanFromMap(KEY_BOOL_TRANSPARENT_SEND_TOUCH_EVENT);
-                Logger.d(TAG, "VALUE_BOOL_TRANSPARENT_SEND_TOUCH_EVENT = " + VALUE_BOOL_TRANSPARENT_SEND_TOUCH_EVENT);
+                valueBoolTransparentSendTouchEvent = getBooleanFromMap(KEY_BOOL_TRANSPARENT_SEND_TOUCH_EVENT);
+                Logger.d(TAG, "VALUE_BOOL_TRANSPARENT_SEND_TOUCH_EVENT = " + valueBoolTransparentSendTouchEvent);
             }
             if (propertyMap.containsKey(KEY_BOOL_SEND_ACTION_DOWN)) {
-                VALUE_BOOL_SEND_ACTION_DOWN = getBooleanFromMap(KEY_BOOL_SEND_ACTION_DOWN);
-                Logger.d(TAG, "VALUE_BOOL_SEND_ACTION_DOWN = " + VALUE_BOOL_SEND_ACTION_DOWN);
+                valueBoolSendActionDown = getBooleanFromMap(KEY_BOOL_SEND_ACTION_DOWN);
+                Logger.d(TAG, "VALUE_BOOL_SEND_ACTION_DOWN = " + valueBoolSendActionDown);
             }
             if (propertyMap.containsKey(KEY_BOOL_VEHICLE_GPS)) {
-                VALUE_BOOL_VEHICLE_GPS = getBooleanFromMap(KEY_BOOL_VEHICLE_GPS);
-                Logger.d(TAG, "VALUE_BOOL_VEHICLE_GPS = " + VALUE_BOOL_VEHICLE_GPS);
+                valueBoolVehicleGps = getBooleanFromMap(KEY_BOOL_VEHICLE_GPS);
+                Logger.d(TAG, "VALUE_BOOL_VEHICLE_GPS = " + valueBoolVehicleGps);
             }
 
             if (propertyMap.containsKey(KEY_INT_GPS_FORMAT)) {
-                VALUE_INT_GPS_FORMAT = getIntFromMap(KEY_INT_GPS_FORMAT);
-                Logger.d(TAG, "VALUE_INT_GPS_FORMAT = " + VALUE_INT_GPS_FORMAT);
+                valueIntGpsFormat = getIntFromMap(KEY_INT_GPS_FORMAT);
+                Logger.d(TAG, "VALUE_INT_GPS_FORMAT = " + valueIntGpsFormat);
             }
 
             if (propertyMap.containsKey(Configs.FEATURE_CONFIG_FOCUS_UI)) {
-                VALUE_INT_FOCUS_UI = getIntFromMap(Configs.FEATURE_CONFIG_FOCUS_UI);
-                Logger.d(TAG, "VALUE_INT_FOCUS_UI = " + VALUE_INT_FOCUS_UI);
+                valueIntFocusUi = getIntFromMap(Configs.FEATURE_CONFIG_FOCUS_UI);
+                Logger.d(TAG, "VALUE_INT_FOCUS_UI = " + valueIntFocusUi);
             }
             if (propertyMap.containsKey(KEY_INT_MEDIA_SAMPLE_RATE)) {
-                VALUE_INT_MEDIA_SAMPLE_RATE = getIntFromMap(KEY_INT_MEDIA_SAMPLE_RATE);
-                Logger.d(TAG, "VALUE_INT_MEDIA_SAMPLE_RATE = " + VALUE_INT_MEDIA_SAMPLE_RATE);
+                valueIntMediaSampleRate = getIntFromMap(KEY_INT_MEDIA_SAMPLE_RATE);
+                Logger.d(TAG, "VALUE_INT_MEDIA_SAMPLE_RATE = " + valueIntMediaSampleRate);
             }
             if (propertyMap.containsKey(KEY_INT_AUDIO_TRANSMISSION_MODE)) {
-                VALUE_INT_AUDIO_TRANSMISSION_MODE = getIntFromMap(KEY_INT_AUDIO_TRANSMISSION_MODE);
-                Logger.d(TAG, "VALUE_INT_AUDIO_TRANSMISSION_MODE = " + VALUE_INT_AUDIO_TRANSMISSION_MODE);
+                valueIntAudioTransmissionMode = getIntFromMap(KEY_INT_AUDIO_TRANSMISSION_MODE);
+                Logger.d(TAG, "VALUE_INT_AUDIO_TRANSMISSION_MODE = " + valueIntAudioTransmissionMode);
             }
 
             if (propertyMap.containsKey(KEY_CONTENT_ENCRYPTION)) {
-                VALUE_CONTENT_ENCRYPTION = getBooleanFromMap(KEY_CONTENT_ENCRYPTION);
-                Logger.d(TAG, "VALUE_CONTENT_ENCRYPTION = " + VALUE_CONTENT_ENCRYPTION);
+                valueContentEncryption = getBooleanFromMap(KEY_CONTENT_ENCRYPTION);
+                Logger.d(TAG, "VALUE_CONTENT_ENCRYPTION = " + valueContentEncryption);
             }
 
             if (propertyMap.containsKey(KEY_ENGINE_TYPE)) {
-                VALUE_ENGINE_TYPE = getIntFromMap(KEY_ENGINE_TYPE);
-                Logger.d(TAG, "VALUE_ENGINE_TYPE = " + VALUE_ENGINE_TYPE);
+                valueEngineType = getIntFromMap(KEY_ENGINE_TYPE);
+                Logger.d(TAG, "VALUE_ENGINE_TYPE = " + valueEngineType);
             }
 
             if (propertyMap.containsKey(KEY_BOOL_INPUT_DISABLE)) {
-                VALUE_IS_INPUT_DISABLE = getIntFromMap(KEY_BOOL_INPUT_DISABLE);
-                Logger.d(TAG, "VALUE_IS_INPUT_DISABLE = " + VALUE_IS_INPUT_DISABLE);
+                valueIsInputDisable = getIntFromMap(KEY_BOOL_INPUT_DISABLE);
+                Logger.d(TAG, "VALUE_IS_INPUT_DISABLE = " + valueIsInputDisable);
             }
 
             if (propertyMap.containsKey(Configs.CONFIG_WIRLESS_TYPE)) {
-                VALUE_INT_WIRLESS_TYPE = getIntFromMap(Configs.CONFIG_WIRLESS_TYPE);
-                Logger.d(TAG, "VALUE_INT_WIRLESS_TYPE = " + VALUE_INT_WIRLESS_TYPE);
+                valueIntWirlessType = getIntFromMap(Configs.CONFIG_WIRLESS_TYPE);
+                Logger.d(TAG, "VALUE_INT_WIRLESS_TYPE = " + valueIntWirlessType);
             }
 
             if (propertyMap.containsKey(Configs.CONFIG_WIRLESS_FREQUENCY)) {
-                VALUE_INT_WIRLESS_FREQUENCY = getIntFromMap(Configs.CONFIG_WIRLESS_FREQUENCY);
-                Logger.d(TAG, "VALUE_INT_WIRLESS_FREQUENCY = " + VALUE_INT_WIRLESS_FREQUENCY);
+                valueIntWirlessFrequency = getIntFromMap(Configs.CONFIG_WIRLESS_FREQUENCY);
+                Logger.d(TAG, "VALUE_INT_WIRLESS_FREQUENCY = " + valueIntWirlessFrequency);
             }
 
             if (propertyMap.containsKey(Configs.CONFIG_USE_BT_AUDIO)) {
-                VALUE_BOOL_USE_BT_AUDIO = getBooleanFromMap(Configs.CONFIG_USE_BT_AUDIO);
-                Logger.d(TAG, "VALUE_BOOL_USE_BT_AUDIO = " + VALUE_BOOL_USE_BT_AUDIO);
+                valueBoolUseBtAudio = getBooleanFromMap(Configs.CONFIG_USE_BT_AUDIO);
+                Logger.d(TAG, "VALUE_BOOL_USE_BT_AUDIO = " + valueBoolUseBtAudio);
             }
 
             if (propertyMap.containsKey(Configs.CONFIG_WIFI_DIRECT_NAME)) {
-                VALUE_STRING_WIFI_DIRECT_NAME = getStringFromMap(Configs.CONFIG_WIFI_DIRECT_NAME);
-                Logger.d(TAG, "VALUE_STRING_USE_BT_AUDIO = " + VALUE_STRING_WIFI_DIRECT_NAME);
+                valueStringWifiDirectName = getStringFromMap(Configs.CONFIG_WIFI_DIRECT_NAME);
+                Logger.d(TAG, "VALUE_STRING_USE_BT_AUDIO = " + valueStringWifiDirectName);
             }
 
             if (propertyMap.containsKey(Configs.CONFIG_TARGET_BLUETOOTH_NAME)) {
-                VALUE_STRING_TARGET_BLUETOOTH_NAME = getStringFromMap(Configs.CONFIG_TARGET_BLUETOOTH_NAME);
-                Logger.d(TAG, "VALUE_STRING_TARGET_BLUETOOTH_NAME = " + VALUE_STRING_TARGET_BLUETOOTH_NAME);
+                valueStringTargetBluetoothName = getStringFromMap(Configs.CONFIG_TARGET_BLUETOOTH_NAME);
+                Logger.d(TAG, "VALUE_STRING_TARGET_BLUETOOTH_NAME = " + valueStringTargetBluetoothName);
             }
 
             if (propertyMap.containsKey(Configs.CONFIG_SAVE_AUDIO_FILE)) {
-                VALUE_BOOL_SAVE_AUDIO_FILE = getBooleanFromMap(Configs.CONFIG_SAVE_AUDIO_FILE);
-                Logger.d(TAG, "VALUE_BOOL_SAVE_AUDIO_FILE = " + VALUE_BOOL_SAVE_AUDIO_FILE);
+                valueBoolSaveAudioFile = getBooleanFromMap(Configs.CONFIG_SAVE_AUDIO_FILE);
+                Logger.d(TAG, "VALUE_BOOL_SAVE_AUDIO_FILE = " + valueBoolSaveAudioFile);
             }
 
         } catch (Exception ex) {
@@ -554,7 +556,7 @@ public class CarlifeConfUtil {
         String value = null;
         try {
             value = propertyMap.get(key);
-            if (value != null && value.equals("true")) {
+            if ("true".equals(value)) {
                 return true;
             } else {
                 return false;
@@ -754,41 +756,41 @@ public class CarlifeConfUtil {
 
     public int getIntProperty(String key) {
         if (key.equals(Configs.FEATURE_CONFIG_VOICE_WAKEUP)) {
-            return VALUE_INT_VOICE_WAKEUP;
+            return valueIntVoiceWakeup;
         } else if (key.equals(KEY_INT_AUDIO_TRACK_NUM)) {
-            return VALUE_INT_AUDIO_TRACK_NUM;
+            return valueIntAudioTrackNum;
         } else if (key.equals(KEY_INT_AUDIO_TRACK_STREAM_TYPE)) {
-            return VALUE_INT_AUDIO_TRACK_STREAM_TYPE;
+            return valueIntAudioTrackStreamType;
         } else if (key.equals(KEY_INT_AUDIO_TRACK_TYPE)) {
-            return VALUE_INT_AUDIO_TRACK_TYPE;
+            return valueIntAudioTrackType;
         } else if (key.equals(Configs.FEATURE_CONFIG_VOICE_MIC)) {
-            return VALUE_INT_VOICE_MIC;
+            return valueIntVoiceMic;
         } else if (key.equals(KEY_INT_MEDIA_SAMPLE_RATE)) {
-            return VALUE_INT_MEDIA_SAMPLE_RATE;
+            return valueIntMediaSampleRate;
         } else if (key.equals(KEY_INT_CONNECT_TYPE_ANDROID)) {
-            return VALUE_INT_CONNECT_TYPE_ANDROID;
+            return valueIntConnectTypeAndroid;
         } else if (key.equals(KEY_INT_CONNECT_TYPE_IPHONE)) {
-            return VALUE_INT_CONNECT_TYPE_IPHONE;
+            return valueIntConnectTypeIphone;
         } else if (key.equals(KEY_INT_AUDIO_TRANSMISSION_MODE)) {
-            return VALUE_INT_AUDIO_TRANSMISSION_MODE;
+            return valueIntAudioTransmissionMode;
         } else if (key.equals(KEY_INT_IPHONE_USB_CONNECT_TYPE)) {
-            return VALUE_INT_IPHONE_USB_CONNECT_TYPE;
+            return valueIntIphoneUsbConnectType;
         } else if (key.equals(KEY_INT_GPS_FORMAT)) {
-            return VALUE_INT_GPS_FORMAT;
+            return valueIntGpsFormat;
         } else if (key.equals(KEY_ENGINE_TYPE)) {
-            return VALUE_ENGINE_TYPE;
+            return valueEngineType;
         } else if (key.equals(KEY_BOOL_INPUT_DISABLE)) {
-            return VALUE_IS_INPUT_DISABLE;
+            return valueIsInputDisable;
         } else if (key.equals(Configs.CONFIG_WIRLESS_TYPE)) {
-            return VALUE_INT_WIRLESS_TYPE;
+            return valueIntWirlessType;
         } else if (key.equals(Configs.CONFIG_WIRLESS_FREQUENCY)) {
-            return VALUE_INT_WIRLESS_FREQUENCY;
+            return valueIntWirlessFrequency;
         } else if (key.equals(Configs.FEATURE_CONFIG_BLUETOOTH_INTERNAL_UI)) {
-            return VALUE_INT_BLUETOOTH_INTERNAL_UI;
+            return valueIntBluetoothInternalUi;
         } else if (key.equals(Configs.FEATURE_CONFIG_BLUETOOTH_AUTO_PAIR)) {
-            return VALUE_INT_BLUETOOTH_AUTO_PAIR;
+            return valueIntBluetoothAutoPair;
         } else if (key.equals(Configs.FEATURE_CONFIG_FOCUS_UI)) {
-            return VALUE_INT_FOCUS_UI;
+            return valueIntFocusUi;
         }
 
         Logger.e(TAG, "can not find key: " + key);
@@ -797,21 +799,21 @@ public class CarlifeConfUtil {
 
     public boolean getBooleanProperty(String key) {
         if (key.equals(KEY_BOOL_NEED_MORE_DECODE_TIME)) {
-            return VALUE_BOOL_NEED_MORE_DECODE_TIME;
+            return valueBoolNeedMoreDecodeTime;
         } else if (key.equals(KEY_BOOL_TRANSPARENT_SEND_TOUCH_EVENT)) {
-            return VALUE_BOOL_TRANSPARENT_SEND_TOUCH_EVENT;
+            return valueBoolTransparentSendTouchEvent;
         } else if (key.equals(KEY_BOOL_SEND_ACTION_DOWN)) {
-            return VALUE_BOOL_SEND_ACTION_DOWN;
+            return valueBoolSendActionDown;
         } else if (key.equals(KEY_BOOL_VEHICLE_GPS)) {
-            return VALUE_BOOL_VEHICLE_GPS;
+            return valueBoolVehicleGps;
         } else if (key.equals(KEY_BOOL_TTS_REQUEST_AUDIO_FOCUS)) {
-            return VALUE_BOOL_AUDIO_FOCUS_REQUIRED;
+            return valueBoolAudioFocusRequired;
         } else if (key.equals(KEY_CONTENT_ENCRYPTION)) {
-            return VALUE_CONTENT_ENCRYPTION;
+            return valueContentEncryption;
         } else if (key.equals(Configs.CONFIG_USE_BT_AUDIO)) {
-            return VALUE_BOOL_USE_BT_AUDIO;
+            return valueBoolUseBtAudio;
         } else if (key.equals(Configs.CONFIG_SAVE_AUDIO_FILE)) {
-            return VALUE_BOOL_SAVE_AUDIO_FILE;
+            return valueBoolSaveAudioFile;
         }
 
         Logger.e(TAG, "can not find key: " + key);
@@ -821,7 +823,7 @@ public class CarlifeConfUtil {
     public String getStringProperty(String key) {
         Logger.e(TAG, "can not find key: " + key);
         if (key.equals(KEY_STRING_IPHONE_NCM_ETHERNET_NAME)) {
-            return VALUE_STRING_IPHONE_NCM_ETHERNET_NAME;
+            return valueStringIphoneNcmEthernetName;
         }
         return null;
     }

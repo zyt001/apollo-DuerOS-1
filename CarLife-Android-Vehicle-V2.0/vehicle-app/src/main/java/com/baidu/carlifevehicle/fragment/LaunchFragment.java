@@ -65,21 +65,21 @@ public class LaunchFragment extends BaseFragment {
         mContentView = (ViewGroup) LayoutInflater.from(mActivity).inflate(R.layout.frag_launch, null);
         mBrandLogoIv = (ImageView) mContentView.findViewById(R.id.launch_iv_brand_logo);
         mCopyRightIv = (ImageView) mContentView.findViewById(R.id.launch_iv_copyright);
-        if (CommonParams.VEHICLE_CHANNEL.equals(CommonParams.VEHICLE_CHANNEL_SHANGHAIGM_CADILLAC)
-                || CommonParams.VEHICLE_CHANNEL.equals(CommonParams.VEHICLE_CHANNEL_SHANGHAIGM_CADILLAC_DUAL_AUDIO)) {
+        if (CommonParams.vehicleChannel.equals(CommonParams.VEHICLE_CHANNEL_SHANGHAIGM_CADILLAC)
+                || CommonParams.vehicleChannel.equals(CommonParams.VEHICLE_CHANNEL_SHANGHAIGM_CADILLAC_DUAL_AUDIO)) {
             mBrandLogoIv.setImageResource(R.drawable.logo_cadillac);
-        } else if (CommonParams.VEHICLE_CHANNEL.startsWith(CommonParams.VEHICLE_CHANNEL_CHANGAN.substring(0, 4))) {
+        } else if (CommonParams.vehicleChannel.startsWith(CommonParams.VEHICLE_CHANNEL_CHANGAN.substring(0, 4))) {
             mBrandLogoIv.setImageResource(R.drawable.logo_changan);
-        } else if (CommonParams.VEHICLE_CHANNEL.equals(CommonParams.VEHICLE_CHANNEL_BYD)) {
+        } else if (CommonParams.vehicleChannel.equals(CommonParams.VEHICLE_CHANNEL_BYD)) {
             mBrandLogoIv.setImageResource(R.drawable.logo_byd);
-        } else if (CommonParams.VEHICLE_CHANNEL.equals(CommonParams.VEHICLE_CHANNEL_CHEVROLET_K216)) {
+        } else if (CommonParams.vehicleChannel.equals(CommonParams.VEHICLE_CHANNEL_CHEVROLET_K216)) {
             mBrandLogoIv.setImageResource(R.drawable.logo_chevrolet);
         }
         boolean isFirstInstall = PreferenceUtil.getInstance().getBoolean(PreferenceUtil.FIRST_INSTALL_KEY, true);
 
         if (isFirstInstall) {
             // adapt for VEHICLE_CHANNEL_EL_AFTER_MARKET, not to display user guide
-            if (!CommonParams.VEHICLE_CHANNEL.equals(CommonParams.VEHICLE_CHANNEL_EL_AFTER_MARKET)) {
+            if (!CommonParams.vehicleChannel.equals(CommonParams.VEHICLE_CHANNEL_EL_AFTER_MARKET)) {
                 MsgHandlerCenter.dispatchMessageDelay(CommonParams.MSG_MAIN_DISPLAY_USER_GUIDE_FRAGMENT, 2000);
             } else {
                 MsgHandlerCenter.dispatchMessageDelay(CommonParams.MSG_MAIN_DISPLAY_MAIN_FRAGMENT, 2000);

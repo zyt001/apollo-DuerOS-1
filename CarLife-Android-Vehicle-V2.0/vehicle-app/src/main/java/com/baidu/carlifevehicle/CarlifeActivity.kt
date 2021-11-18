@@ -439,7 +439,7 @@ class CarlifeActivity : AppCompatActivity(),
         CarLife.receiver().setConfig(Configs.CONFIG_USE_BT_AUDIO, CarlifeConfUtil.getInstance().getBooleanProperty(Configs.CONFIG_USE_BT_AUDIO))
 
         // 根据渠道号构建static info 信息
-        CarLife.receiver().initStatisticsInfo(CommonParams.VEHICLE_CHANNEL, "12345678")
+        CarLife.receiver().initStatisticsInfo(CommonParams.vehicleChannel, "12345678")
         mIsInitConfig = true;
 
     }

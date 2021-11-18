@@ -22,14 +22,10 @@ import android.hardware.usb.UsbInterface;
 import android.hardware.usb.UsbManager;
 import android.os.HandlerThread;
 import android.os.Looper;
-import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.baidu.android.common.util.CommonParam;
-import com.baidu.carlife.protobuf.CarlifeModuleStatusProto.CarlifeModuleStatus;
-import com.baidu.carlife.protobuf.CarlifeStatisticsInfoProto.CarlifeStatisticsInfo;
-import com.baidu.carlife.protobuf.CarlifeVideoEncoderInfoProto.CarlifeVideoEncoderInfo;
 import com.baidu.carlife.sdk.util.Logger;
 import com.baidu.carlifevehicle.fragment.BaseFragment;
 
@@ -77,8 +73,9 @@ public class CarlifeUtil {
     }
 
     public void init(Context context) {
-        if (context == null)
+        if (context == null) {
             return;
+        }
         mContext = context;
 
         mCuid = CommonParam.getCUID(mContext);
@@ -95,11 +92,12 @@ public class CarlifeUtil {
         Logger.e(TAG, "versionName = " + mVersionName);
         Logger.e(TAG, "versionCode = " + mVersionCode);
 
-        mChannel = CommonParams.VEHICLE_CHANNEL;
+        mChannel = CommonParams.vehicleChannel;
     }
 
     /**
      * get carlife version name
+     *
      * @return version name as string
      */
     public String getVersionName() {
@@ -108,6 +106,7 @@ public class CarlifeUtil {
 
     /**
      * get carlife version code
+     *
      * @return version code as int
      */
     public int getVersionCode() {
@@ -116,18 +115,20 @@ public class CarlifeUtil {
 
     /**
      * get cuid
+     *
      * @return cuid, default is {@link CarlifeUtil#CARLIFE_DEFAULT_CUID}
      */
     public String getCuid() {
-        if (mCuid == null)
+        if (mCuid == null) {
             return CARLIFE_DEFAULT_CUID;
+        }
         return mCuid;
     }
 
     public static void closeCloseable(Closeable closeable) {
         if (closeable != null) {
             try {
-               closeable.close();
+                closeable.close();
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new IllegalArgumentException(e.getMessage());
@@ -139,6 +140,7 @@ public class CarlifeUtil {
 
     /**
      * get vehicle channel
+     *
      * @return unique channel id as string
      */
     public String getChannel() {
@@ -147,6 +149,7 @@ public class CarlifeUtil {
 
     /**
      * get current time
+     *
      * @return time as string
      */
     public String getCurrentTime() {
@@ -159,25 +162,29 @@ public class CarlifeUtil {
 
     /**
      * get sdcard directory path
+     *
      * @return path as string, null if context is null
      */
     public String getSDPath() {
         String path = null;
-        if (mContext == null)
+        if (mContext == null) {
             return null;
+        }
         path = mContext.getFilesDir().toString();
         return path;
     }
 
     /**
      * dump file from assert directory
+     *
      * @param from file name of the file in assert directory
-     * @param to the directory to dump the file to
+     * @param to   the directory to dump the file to
      * @return true for success, false for error
      */
     public boolean dumpAssetsFile(String from, String to) {
-        if (mContext == null)
+        if (mContext == null) {
             return false;
+        }
 
         if (from == null || to == null) {
             Logger.e(TAG, "from or to is null");
@@ -217,7 +224,6 @@ public class CarlifeUtil {
     }
 
     /**
-     *
      * @return true for debug variant, false for release
      */
     public static boolean isDebug() {
@@ -231,8 +237,9 @@ public class CarlifeUtil {
 
     /**
      * send video codec message to service
-     * @param width width
-     * @param height height
+     *
+     * @param width     width
+     * @param height    height
      * @param frameRate frame rate, if 0, means no limit to frame rate
      */
     public static void sendVideoCodecMsg(int width, int height, int frameRate) {
@@ -297,7 +304,7 @@ public class CarlifeUtil {
 //        ConnectClient.getInstance().sendMsgToService(msgTmp);
     }
 
-    public static void sendStatisticsInfo(int connect_time) {
+    public static void sendStatisticsInfo(int connectTime) {
 //        CarlifeCmdMessage command = new CarlifeCmdMessage(true);
 //        command.setServiceType(CommonParams.MSG_CMD_STATISTIC_INFO);
 //        CarlifeStatisticsInfo.Builder builder = CarlifeStatisticsInfo.newBuilder();
@@ -385,7 +392,7 @@ public class CarlifeUtil {
     }
 
     public boolean isUsbStorageDevice(UsbDevice device) {
-        if( device == null ) {
+        if (device == null) {
             Logger.e(TAG, "this device is null");
             return false;
         }

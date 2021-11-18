@@ -31,7 +31,7 @@ public class MsgHandlerCenter {
     /**
      * handlers for messages to be delivered
      */
-    private static final List<MsgBaseHandler> mHandlerList = new ArrayList<MsgBaseHandler>();
+    private static final List<MsgBaseHandler> HANDLER_LIST = new ArrayList<MsgBaseHandler>();
 
     public MsgHandlerCenter() {
     }
@@ -42,11 +42,11 @@ public class MsgHandlerCenter {
      * @param handler the {@link android.os.Handler} to be registered
      */
     public static void registerMessageHandler(MsgBaseHandler handler) {
-        if (null == handler || mHandlerList.contains(handler)) {
+        if (null == handler || HANDLER_LIST.contains(handler)) {
             return;
         }
 
-        mHandlerList.add(handler);
+        HANDLER_LIST.add(handler);
     }
 
     /**
@@ -55,10 +55,10 @@ public class MsgHandlerCenter {
      * @param handler the {@link android.os.Handler} to be unregistered
      */
     public static void unRegisterMessageHandler(MsgBaseHandler handler) {
-        if (null == handler || (!mHandlerList.contains(handler))) {
+        if (null == handler || (!HANDLER_LIST.contains(handler))) {
             return;
         }
-        mHandlerList.remove(handler);
+        HANDLER_LIST.remove(handler);
     }
 
     /**
@@ -66,7 +66,7 @@ public class MsgHandlerCenter {
      *
      */
     public static void unRegisterAllMessageHandler() {
-        mHandlerList.clear();
+        HANDLER_LIST.clear();
     }
 
     /**
@@ -78,9 +78,9 @@ public class MsgHandlerCenter {
      * @param delay after delay time to dispatch the message, in milliseconds
      */
     public static void dispatchMessageDelay(int what, int arg1, int arg2, Object b, int delay) {
-        if (mHandlerList != null && !mHandlerList.isEmpty()) {
-            for (int i = 0; i < mHandlerList.size(); i++) {
-                MsgBaseHandler h = mHandlerList.get(i);
+        if (HANDLER_LIST != null && !HANDLER_LIST.isEmpty()) {
+            for (int i = 0; i < HANDLER_LIST.size(); i++) {
+                MsgBaseHandler h = HANDLER_LIST.get(i);
                 if (h != null && h.isAdded(what)) {
                     Message msg = Message.obtain(h, what, arg1, arg2, b);
                     h.sendMessageDelayed(msg, delay);
@@ -111,9 +111,9 @@ public class MsgHandlerCenter {
      * @param what {@link Message#what}
      */
     public static void removeMessages(int what) {
-        if (mHandlerList != null && !mHandlerList.isEmpty()) {
-            for (int i = 0; i < mHandlerList.size(); i++) {
-                MsgBaseHandler h = mHandlerList.get(i);
+        if (HANDLER_LIST != null && !HANDLER_LIST.isEmpty()) {
+            for (int i = 0; i < HANDLER_LIST.size(); i++) {
+                MsgBaseHandler h = HANDLER_LIST.get(i);
                 if (h != null && h.isAdded(what)) {
                     h.removeMessages(what);
                 }

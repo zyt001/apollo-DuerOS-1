@@ -52,7 +52,7 @@ public class MainFragment extends BaseFragment implements OnClickListener {
     private ImageButton mExitAppBtn = null;
     private Timer mTimer = null;
     private TimerTask mTimerTask = null;
-    public static int CONNECT_TIMEOUT_MS = 20 * 1000;
+    public static int connectTimeoutMs = 20 * 1000;
     public static final int CONNECT_TIMEOUT_MS_WIFI = 20 * 1000;
     public static final int CONNECT_TIMEOUT_MS_USB = 30 * 1000;
     public static final int CONNECT_TIMEOUT_MS_INSTALL = 60 * 1000;
@@ -92,7 +92,7 @@ public class MainFragment extends BaseFragment implements OnClickListener {
         super.onHiddenChanged(hidden);
         if (isNeedShowHelpMainFragment && !hidden) {
             MsgHandlerCenter.dispatchMessageDelay(CommonParams.MSG_MAIN_DISPLAY_HELP_MAIN_FRAGMENT, 30 * 1000);
-            //主页首次显示时才开始去执行连接
+            // 主页首次显示时才开始去执行连接
             beginConnect();
             isNeedShowHelpMainFragment = false;
         } else if (hidden && mHandler.hasMessages(CommonParams.MSG_MAIN_DISPLAY_HELP_MAIN_FRAGMENT)) {
@@ -112,44 +112,44 @@ public class MainFragment extends BaseFragment implements OnClickListener {
         mConnectInfo = (TextView) mContentView.findViewById(R.id.main_info_text_view);
         mRellayoutStatus = (RelativeLayout) mContentView.findViewById(R.id.main_rellayout_status);
         mRetryBtn = (Button) mContentView.findViewById(R.id.main_retry_btn);
-        
+
         mHelpBtn = (TextView) mContentView.findViewById(R.id.main_btn_help);
         mHelpBtn.setOnClickListener(this);
         mExitAppBtn = (ImageButton) mContentView.findViewById(R.id.exit_img_btn);
         mExitAppBtn.setOnClickListener(this);
-        if (CommonParams.VEHICLE_CHANNEL.equals(CommonParams.VEHICLE_CHANNEL_EL_AFTER_MARKET)) {
+        if (CommonParams.vehicleChannel.equals(CommonParams.VEHICLE_CHANNEL_EL_AFTER_MARKET)) {
             mRetryBtn.setVisibility(View.GONE);
             mRetryBtn = null;
             changeUILayout();
         } else {
             mRetryBtn.setOnClickListener(this);
         }
-        
-        CONNECT_TIMEOUT_MS = CONNECT_TIMEOUT_MS_USB;
+
+        connectTimeoutMs = CONNECT_TIMEOUT_MS_USB;
         Logger.d(TAG, "set timeout: " + CONNECT_TIMEOUT_MS_USB);
         return mContentView;
     }
-    
+
     private void changeUILayout() {
         mHelpBtn.setVisibility(View.GONE);
         mExitAppBtn.setVisibility(View.GONE);
         RelativeLayout.LayoutParams params = null;
-        
+
         params = (RelativeLayout.LayoutParams) mImgView.getLayoutParams();
         params.setMargins(0, 0, 0, 0);
         params.height = 200;
         mImgView.setLayoutParams(params);
-        
+
         params = (RelativeLayout.LayoutParams) mConnectInfo.getLayoutParams();
         params.setMargins(0, 0, 0, 0);
         mConnectInfo.setLayoutParams(params);
         mConnectInfo.setTextSize(22.0f);
-        
+
         mContentView.invalidate();
     }
 
     private void retryBtnClick() {
-        //todo adb 连接是否需要适配
+        // todo adb 连接是否需要适配
         if (mRetryBtn != null) {
             mRetryBtn.setVisibility(View.INVISIBLE);
         }
@@ -172,7 +172,7 @@ public class MainFragment extends BaseFragment implements OnClickListener {
 
     private void beginConnect() {
         CarLife.receiver().connect();
-        TimerUtils.INSTANCE.schedule(mConnectionTask, CONNECT_TIMEOUT_MS, CONNECT_TIMEOUT_MS);
+        TimerUtils.INSTANCE.schedule(mConnectionTask, connectTimeoutMs, connectTimeoutMs);
     }
 
     @Override
@@ -218,7 +218,7 @@ public class MainFragment extends BaseFragment implements OnClickListener {
                 switch (msg.what) {
                     case CommonParams.MSG_CONNECT_STATUS_CONNECTED:
                         TimerUtils.INSTANCE.stop(mConnectionTask);
-                        TimerUtils.INSTANCE.schedule(mProtocolInteractionTask, CONNECT_TIMEOUT_MS, CONNECT_TIMEOUT_MS);
+                        TimerUtils.INSTANCE.schedule(mProtocolInteractionTask, connectTimeoutMs, connectTimeoutMs);
                         break;
                     case CommonParams.MSG_CONNECT_STATUS_ESTABLISHED:
                         TimerUtils.INSTANCE.stop(mProtocolInteractionTask);
@@ -279,7 +279,7 @@ public class MainFragment extends BaseFragment implements OnClickListener {
                             mRellayoutStatus.setVisibility(View.VISIBLE);
                             mConnectInfo.setText(R.string.usb_connect_fail);
                             mImgView.setImageDrawable(getResources().getDrawable(R.drawable.car_ic_connect_error));
-                            Logger.d(TAG, "ChangeUI:: MSG_FRAGMENT_REFRESH  AoaNotSupportADBNotOpen " );
+                            Logger.d(TAG, "ChangeUI:: MSG_FRAGMENT_REFRESH  AoaNotSupportADBNotOpen ");
                         }
                         break;
                     case CommonParams.MSG_CONNECT_FAIL_START:
@@ -288,7 +288,7 @@ public class MainFragment extends BaseFragment implements OnClickListener {
                         mConnectInfo.setText(R.string.usb_connect_fail_install);
                         mImgView.setImageDrawable(getResources().getDrawable(R.drawable.car_ic_qr));
                         TimerUtils.INSTANCE.stop(mProtocolInteractionTask);
-                         break;
+                        break;
                     case CommonParams.MSG_MAIN_DISPLAY_HELP_MAIN_FRAGMENT:
                         Logger.d(TAG, "showFragment(HelpMainFragment.getInstance()");
                         if (mFragmentManager != null) {
@@ -354,8 +354,8 @@ public class MainFragment extends BaseFragment implements OnClickListener {
             connectStatusHeight = getResources().getDimensionPixelSize(R.dimen.connect_status_height);
             Logger.d(TAG, "connectStatusHeight=" + connectStatusHeight);
             wParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-            int screenHeigh = 12;//PhoneUtil.getInstance().getScreenHeight();
-            int screenWidth = 13;//PhoneUtil.getInstance().getScreenWidth();
+            int screenHeigh = 12; // PhoneUtil.getInstance().getScreenHeight();
+            int screenWidth = 13; // PhoneUtil.getInstance().getScreenWidth();
             Logger.d(TAG, "screenHeigh=" + screenHeigh + ",screenWidth=" + screenWidth);
             wParams.topMargin = ((screenHeigh - connectStatusHeight) * 2) / 3;
             wParams.bottomMargin = (screenHeigh - connectStatusHeight) / 3;
@@ -370,7 +370,7 @@ public class MainFragment extends BaseFragment implements OnClickListener {
     public void updateExceptionTips(String exceptionTips) {
         if (isAoaNotSupportADBNotOpen) {
             String hintResStr = getResources().getString(R.string.usb_connect_aoa_request_md_permisson);
-            if ( hintResStr.equals(exceptionTips) ) {
+            if (hintResStr.equals(exceptionTips)) {
                 return;
             }
         }

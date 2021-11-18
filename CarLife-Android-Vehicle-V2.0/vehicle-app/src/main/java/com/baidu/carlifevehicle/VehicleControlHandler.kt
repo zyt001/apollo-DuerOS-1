@@ -1,6 +1,8 @@
-package com.baidu.carlife.sdk
+package com.baidu.carlifevehicle
 
 import com.baidu.carlife.protobuf.*
+import com.baidu.carlife.sdk.CarLifeContext
+import com.baidu.carlife.sdk.Constants
 import com.baidu.carlife.sdk.internal.protocol.CarLifeMessage
 import com.baidu.carlife.sdk.internal.protocol.ServiceTypes
 import com.baidu.carlife.sdk.internal.transport.TransportListener
@@ -25,7 +27,8 @@ class VehicleControlHandler: TransportListener {
         val info = message.protoPayload as?
                 CarlifeVehicleControlProto.CarlifeVehicleControl
 
-        Logger.d(TAG, "收到手机端发来的消息, type: " + info?.type
+        Logger.d(
+            TAG, "收到手机端发来的消息, type: " + info?.type
                     + ", id: " + info?.id
                     + ", areaId: " + info?.areaId
                     + ", valueType: " + info?.valueType + ", msg: " + info?.toString()
@@ -44,7 +47,8 @@ class VehicleControlHandler: TransportListener {
     private fun sendVehicleDataInfo(context: CarLifeContext, message: CarLifeMessage) {
         Logger.d(TAG, "给手机端发送消息");
         context.postDelayed(100) {
-            val message = CarLifeMessage.obtain(Constants.MSG_CHANNEL_CMD,
+            val message = CarLifeMessage.obtain(
+                Constants.MSG_CHANNEL_CMD,
                 ServiceTypes.MSG_CMD_VEHICLE_CONTROL_INFO, 0)
 
             message.payload(CarlifeVehicleDataListProto.CarlifeVehicleDataList.newBuilder()

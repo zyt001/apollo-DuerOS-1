@@ -1,41 +1,9 @@
 package com.baidu.carlifevehicle;
 
-import android.animation.ObjectAnimator;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Environment;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.*;
-
-import com.baidu.carlife.protobuf.CarlifeCarHardKeyCodeProto;
-import com.baidu.carlife.protobuf.CarlifeCarSpeedProto;
-import com.baidu.carlife.sdk.internal.protocol.CarLifeMessage;
-import com.baidu.carlife.sdk.internal.protocol.ServiceTypes;
-import com.baidu.carlife.sdk.receiver.CarLife;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import static android.view.KeyEvent.KEYCODE_DEL;
-import static com.baidu.carlife.sdk.Constants.MIC_STATUS_NOT_SUPPORTED;
-import static com.baidu.carlife.sdk.Constants.MIC_STATUS_USE_MOBILE_MIC;
 import static com.baidu.carlife.sdk.Constants.MSG_CHANNEL_CMD;
 import static com.baidu.carlife.sdk.Constants.MSG_CHANNEL_TOUCH;
 import static com.baidu.carlife.sdk.Constants.NAVI_STATUS_IDLE;
 import static com.baidu.carlife.sdk.internal.protocol.ServiceTypes.KEYCODE_BACK;
-import static com.baidu.carlife.sdk.internal.protocol.ServiceTypes.KEYCODE_HOME;
 import static com.baidu.carlife.sdk.internal.protocol.ServiceTypes.KEYCODE_MAIN;
 import static com.baidu.carlife.sdk.internal.protocol.ServiceTypes.KEYCODE_MEDIA;
 import static com.baidu.carlife.sdk.internal.protocol.ServiceTypes.KEYCODE_MEDIA_START;
@@ -57,6 +25,39 @@ import static com.baidu.carlife.sdk.internal.protocol.ServiceTypes.KEYCODE_SELEC
 import static com.baidu.carlife.sdk.internal.protocol.ServiceTypes.KEYCODE_TEL;
 import static com.baidu.carlife.sdk.internal.protocol.ServiceTypes.KEYCODE_VR_START;
 import static com.baidu.carlife.sdk.internal.protocol.ServiceTypes.KEYCODE_VR_STOP;
+
+import android.animation.ObjectAnimator;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Environment;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.PopupWindow;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.baidu.carlife.protobuf.CarlifeCarHardKeyCodeProto;
+import com.baidu.carlife.protobuf.CarlifeCarSpeedProto;
+import com.baidu.carlife.protobuf.CarlifeModuleStatusProto;
+import com.baidu.carlife.sdk.internal.protocol.CarLifeMessage;
+import com.baidu.carlife.sdk.internal.protocol.ServiceTypes;
+import com.baidu.carlife.sdk.receiver.CarLife;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ControlTestWindow implements OnClickListener {
 
@@ -97,10 +98,10 @@ public class ControlTestWindow implements OnClickListener {
     private Button mCarSpeed10km;
     private Button mCarSpeed2km;
 
-    private Spinner v_spinner;
-    private Button v_spinnerText;
-    private String[] v_spinnerArray;
-    private Map<String, Integer> v_spinnerMap;
+    private Spinner vSpinner;
+    private Button vSpinnerText;
+    private String[] vSpinnerArray;
+    private Map<String, Integer> vSpinnerMap;
 
     private static final String FILE_PATH = Environment.getExternalStorageDirectory().getPath() + "/spspps.data";
 
@@ -175,15 +176,33 @@ public class ControlTestWindow implements OnClickListener {
             mPhoneEnd = (Button) mFullWindowLayout.findViewById(R.id.phone_end);
             mMusicStart.setOnClickListener(this);
             mMusicStop.setOnClickListener(this);
+
             mRecordStart.setOnClickListener(this);
             mRecordStop.setOnClickListener(this);
             mNaviStop.setOnClickListener(this);
+
+            mNaviStop.setOnClickListener(v -> {
+                CarLifeMessage message = CarLifeMessage.obtain(
+                        MSG_CHANNEL_CMD,
+                        ServiceTypes.MSG_CMD_MODULE_CONTROL,
+                        0);
+
+                message.payload(CarlifeModuleStatusProto.CarlifeModuleStatus
+                        .newBuilder()
+                        .setModuleID(2)
+                        .setStatusID(0)
+                        .build());
+
+                CarLife.receiver().postMessage(message);
+            });
+
             mPhoneCall.setOnClickListener(this);
             mPhoneEnd.setOnClickListener(this);
 
             mFullWindowLayout.findViewById(R.id.btn_not_support_mic).setOnClickListener(this);
             mFullWindowLayout.findViewById(R.id.btn_use_mobile_mic).setOnClickListener(this);
             mFullWindowLayout.findViewById(R.id.btn_clear).setOnClickListener(this);
+
             mFullWindowLayout.findViewById(R.id.btn_delete).setOnClickListener(this);
 
             mCarSpeed10km = (Button) mFullWindowLayout.findViewById(R.id.car_speed_10);
@@ -194,19 +213,18 @@ public class ControlTestWindow implements OnClickListener {
             mFullWindowLayout.findViewById(R.id.go_setting).setOnClickListener(this);
 
 
+            vSpinnerArray = mContext.getResources().getStringArray(R.array.spinner_channel);
+            vSpinnerMap = new HashMap<>();
+            vSpinnerMap.put(vSpinnerArray[0], 0x00018003);
+            vSpinnerMap.put(vSpinnerArray[1], 0x00018005);
 
-            v_spinnerArray = mContext.getResources().getStringArray(R.array.spinner_channel);
-            v_spinnerMap = new HashMap<>();
-            v_spinnerMap.put(v_spinnerArray[0], 0x00018003);
-            v_spinnerMap.put(v_spinnerArray[1], 0x00018005);
-
-            v_spinner = mFullWindowLayout.findViewById(R.id.spin);
-            v_spinnerText = mFullWindowLayout.findViewById(R.id.spinText);
-            v_spinnerText.setOnClickListener(this);
-            v_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            vSpinner = mFullWindowLayout.findViewById(R.id.spin);
+            vSpinnerText = mFullWindowLayout.findViewById(R.id.spinText);
+            vSpinnerText.setOnClickListener(this);
+            vSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    v_spinnerText.setText(v_spinnerArray[position]);
+                    vSpinnerText.setText(vSpinnerArray[position]);
                 }
 
                 @Override
@@ -226,9 +244,9 @@ public class ControlTestWindow implements OnClickListener {
 
         ObjectAnimator oa = ObjectAnimator.ofFloat(mFullWindowLayout, "alpha", 1f, 0.5f);
         oa.setDuration(300);
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(mFullWindowLayout, "scaleX", 1,0.6f);
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(mFullWindowLayout, "scaleX", 1, 0.6f);
         scaleX.setDuration(300);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(mFullWindowLayout, "scaleY", 1,0.6f);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(mFullWindowLayout, "scaleY", 1, 0.6f);
         scaleY.setDuration(300);
         oa.start();
         scaleX.start();
@@ -424,6 +442,7 @@ public class ControlTestWindow implements OnClickListener {
             case R.id.car_speed_10:
                 showToast("Car Speed: 10KM");
                 sendCarVelocityToMD(10);
+                break;
             case R.id.car_speed_80:
                 showToast("Car Speed: 80KM");
                 sendCarVelocityToMD(80);
@@ -436,8 +455,8 @@ public class ControlTestWindow implements OnClickListener {
                 mContext.startActivity(new Intent(mContext, SettingsActivity.class));
                 break;
             case R.id.spinText:
-                showToast(v_spinnerMap.get(v_spinnerText.getText().toString()).toString());
-                CarLife.receiver().postMessage(MSG_CHANNEL_CMD, v_spinnerMap.get(v_spinnerText.getText().toString()));
+                showToast(vSpinnerMap.get(vSpinnerText.getText().toString()).toString());
+                CarLife.receiver().postMessage(MSG_CHANNEL_CMD, vSpinnerMap.get(vSpinnerText.getText().toString()));
                 break;
 
             default:

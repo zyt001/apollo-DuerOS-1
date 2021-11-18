@@ -49,7 +49,8 @@ public class CarLifeFragmentManager {
             }
 
             if (!mMainFragment.isAdded()) {
-                mFragmentTransaction.add(R.id.main_content_frame, mMainFragment, mMainFragment.getClass().getSimpleName());
+                mFragmentTransaction.add(R.id.main_content_frame,
+                        mMainFragment, mMainFragment.getClass().getSimpleName());
             }
             mFragmentTransaction.commitAllowingStateLoss();
             mCurrentFragment = mMainFragment;
@@ -60,7 +61,6 @@ public class CarLifeFragmentManager {
     }
 
     /**
-     * 
      * @return the fragment currently displayed
      */
     public BaseFragment getCurrentFragment() {
@@ -68,7 +68,6 @@ public class CarLifeFragmentManager {
     }
 
     /**
-     *
      * @param fragment the fragment to be displayed
      */
     public void showFragment(BaseFragment fragment) {

@@ -133,6 +133,7 @@
 
     <string name="help_android_device">查看如何开启“USB调试”</string>
     <string name="help_android_checkot_install">确认手机已安装CarLife</string>
+    <string name="help_android_default_connect_type">车机默认连接方式</string>
     <string name="help_android_check_title">检查数据线并重新连接</string>
     <string name="help_android_check_content">连接后手机处于充电状态，但无法建立连接，可能是您的USB线仅支持充电，不支持数据传输，您可以换根数据线后尝试重连</string>
     <string name="help_android_reboot_and_try">尝试重启手机再次连接</string>
