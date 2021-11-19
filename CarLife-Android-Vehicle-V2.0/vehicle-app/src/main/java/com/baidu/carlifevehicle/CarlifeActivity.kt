@@ -32,7 +32,10 @@ import com.baidu.carlife.sdk.util.Logger
 import com.baidu.carlifevehicle.fragment.*
 import com.baidu.carlifevehicle.message.MsgBaseHandler
 import com.baidu.carlifevehicle.message.MsgHandlerCenter
+import com.baidu.carlifevehicle.module.MusicModule
+import com.baidu.carlifevehicle.module.NavModule
 import com.baidu.carlifevehicle.module.PhoneModule
+import com.baidu.carlifevehicle.module.VRModule
 import com.baidu.carlifevehicle.util.CarlifeConfUtil
 import com.baidu.carlifevehicle.util.CarlifeUtil
 import com.baidu.carlifevehicle.util.CommonParams
@@ -49,6 +52,9 @@ class CarlifeActivity : AppCompatActivity(),
     private lateinit var btHardKeyCode: Button
     private lateinit var mVehicleControlHandler: TransportListener
     private lateinit var mPhoneModule: CarLifeModule
+    private lateinit var mMusicModule: CarLifeModule
+    private lateinit var mNavModule: CarLifeModule
+    private lateinit var mVRModule: CarLifeModule
     private var mCarLifeFragmentManager: CarLifeFragmentManager? = null
     private var mExitAppDialog: CarlifeMessageDialog? = null
 
@@ -80,7 +86,13 @@ class CarlifeActivity : AppCompatActivity(),
         btHardKeyCode.setOnClickListener(this)
 
         mPhoneModule = PhoneModule(CarLife.receiver(), this, this)
+        mMusicModule = MusicModule(CarLife.receiver(), this)
+        mNavModule = NavModule(CarLife.receiver(), this)
+        mVRModule = VRModule(CarLife.receiver(), this)
         CarLife.receiver().addModule(mPhoneModule)
+        CarLife.receiver().addModule(mMusicModule)
+        CarLife.receiver().addModule(mNavModule)
+        CarLife.receiver().addModule(mVRModule)
         CarLife.receiver().addConnectProgressListener(this)
         CarLife.receiver().registerTransportListener(this)
         CarLife.receiver().registerWirlessStatusListeners(this)
@@ -137,6 +149,10 @@ class CarlifeActivity : AppCompatActivity(),
         CarLife.receiver().unregisterTransportListener(mVehicleControlHandler)
         CarLife.receiver().setFileTransferListener(null)
         CarLife.receiver().removeModule(mPhoneModule)
+        CarLife.receiver().removeModule(mMusicModule)
+        CarLife.receiver().removeModule(mNavModule)
+        CarLife.receiver().removeModule(mVRModule)
+
         CarLife.receiver().unregisterWirlessStatusListeners(this)
         MsgHandlerCenter.unRegisterMessageHandler(mMainActivityHandler)
     }
