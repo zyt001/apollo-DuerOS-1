@@ -365,6 +365,7 @@ class CarlifeActivity : AppCompatActivity(),
 
                     CommonParams.MSG_MAIN_DISPLAY_TOUCH_FRAGMENT -> {
                         // Recover call status cover page only when in ringing
+                        if (!CarLife.receiver().isAttached()) return
                         if (mIsCallCoverShowed && callStatus == 1) {
                             val builder = CarlifeBTHfpCallStatusCover.newBuilder()
                             if (builder != null) {
@@ -422,15 +423,12 @@ class CarlifeActivity : AppCompatActivity(),
         Logger.e(TAG, "++++++++++++++++++++Baidu Carlife Begin++++++++++++++++++++")
 
         // 根据配置文件设置相应的配置
-
-        val features = mapOf(
-            Configs.FEATURE_CONFIG_VOICE_WAKEUP to CarlifeConfUtil.getInstance().getIntProperty(Configs.FEATURE_CONFIG_VOICE_WAKEUP),
-            Configs.FEATURE_CONFIG_VOICE_MIC to CarlifeConfUtil.getInstance().getIntProperty(Configs.FEATURE_CONFIG_VOICE_MIC),
-            Configs.FEATURE_CONFIG_BLUETOOTH_INTERNAL_UI to CarlifeConfUtil.getInstance().getIntProperty(Configs.FEATURE_CONFIG_BLUETOOTH_INTERNAL_UI),
-            Configs.FEATURE_CONFIG_FOCUS_UI to CarlifeConfUtil.getInstance().getIntProperty(Configs.FEATURE_CONFIG_FOCUS_UI)
-        )
-
-        CarLife.receiver().setFeatures(features)
+        CarLife.receiver().run {
+            setFeature(Configs.FEATURE_CONFIG_VOICE_WAKEUP, CarlifeConfUtil.getInstance().getIntProperty(Configs.FEATURE_CONFIG_VOICE_WAKEUP))
+            setFeature(Configs.FEATURE_CONFIG_VOICE_MIC, CarlifeConfUtil.getInstance().getIntProperty(Configs.FEATURE_CONFIG_VOICE_MIC))
+            setFeature(Configs.FEATURE_CONFIG_BLUETOOTH_INTERNAL_UI, CarlifeConfUtil.getInstance().getIntProperty(Configs.FEATURE_CONFIG_BLUETOOTH_INTERNAL_UI))
+            setFeature(Configs.FEATURE_CONFIG_FOCUS_UI, CarlifeConfUtil.getInstance().getIntProperty(Configs.FEATURE_CONFIG_FOCUS_UI))
+        }
 
         if (!TextUtils.isEmpty(CarlifeConfUtil.getInstance().getStringFromMap(Configs.CONFIG_WIFI_DIRECT_NAME))) {
             CarLife.receiver().setConfig(Configs.CONFIG_WIFI_DIRECT_NAME, CarlifeConfUtil.getInstance().getStringFromMap(Configs.CONFIG_WIFI_DIRECT_NAME))

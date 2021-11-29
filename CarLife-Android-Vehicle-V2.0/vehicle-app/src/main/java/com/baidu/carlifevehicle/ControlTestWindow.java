@@ -211,6 +211,7 @@ public class ControlTestWindow implements OnClickListener {
             mCarSpeed2km.setOnClickListener(this);
 
             mFullWindowLayout.findViewById(R.id.go_setting).setOnClickListener(this);
+            mFullWindowLayout.findViewById(R.id.disconnect).setOnClickListener(this);
 
 
             vSpinnerArray = mContext.getResources().getStringArray(R.array.spinner_channel);
@@ -458,7 +459,9 @@ public class ControlTestWindow implements OnClickListener {
                 showToast(vSpinnerMap.get(vSpinnerText.getText().toString()).toString());
                 CarLife.receiver().postMessage(MSG_CHANNEL_CMD, vSpinnerMap.get(vSpinnerText.getText().toString()));
                 break;
-
+            case R.id.disconnect:
+                CarLife.receiver().disconnect();
+                break;
             default:
                 break;
         }
