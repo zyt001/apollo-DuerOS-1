@@ -17,6 +17,7 @@ class ControllerHandler : TransportListener {
                 Logger.d(Constants.TAG, "back to home ", message)
                 val intent = Intent(Intent.ACTION_MAIN)
                 intent.addCategory(Intent.CATEGORY_HOME)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 context.applicationContext.startActivity(intent)
             }
             else -> {

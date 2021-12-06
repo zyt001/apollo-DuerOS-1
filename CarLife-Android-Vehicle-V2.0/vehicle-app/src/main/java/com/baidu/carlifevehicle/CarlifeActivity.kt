@@ -261,7 +261,7 @@ class CarlifeActivity : AppCompatActivity(),
         mExitAppDialog?.setOnDismissListener(DialogInterface.OnDismissListener {
             mExitAppDialog = null
         })
-        
+
         if (!mExitAppDialog!!.isShowing) {
             try {
                 mExitAppDialog?.show()
@@ -270,9 +270,10 @@ class CarlifeActivity : AppCompatActivity(),
             }
         }
     }
-    
+
     private fun exitApp() {
-        onDestroy()
+        CarLife.receiver().disconnect()
+        finish()
         android.os.Process.killProcess(android.os.Process.myPid())
     }
 

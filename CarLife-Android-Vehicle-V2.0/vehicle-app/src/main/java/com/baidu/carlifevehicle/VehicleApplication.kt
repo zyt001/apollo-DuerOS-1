@@ -67,7 +67,8 @@ class VehicleApplication : Application() {
             CONFIG_CONTENT_ENCRYPTION to true,
             CONFIG_USE_ASYNC_USB_MODE to false,
             CONFIG_PROTOCOL_VERSION to 4,
-            CONFIG_TARGET_BLUETOOTH_NAME to "Box1",
+            CONFIG_TARGET_BLUETOOTH_NAME to "MI88",
+            CONFIG_WIFI_DIRECT_NAME to "Mi9Pro5G",
             CONFIG_VOICE_RECORD_SDK to true
         )
 
