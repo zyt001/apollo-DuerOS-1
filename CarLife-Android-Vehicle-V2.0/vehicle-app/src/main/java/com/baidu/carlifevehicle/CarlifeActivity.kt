@@ -19,7 +19,6 @@ import com.baidu.carlife.protobuf.CarlifeConnectExceptionProto.CarlifeConnectExc
 import com.baidu.carlife.sdk.*
 import com.baidu.carlife.sdk.Constants.TAG
 import com.baidu.carlife.sdk.Constants.VALUE_PROGRESS_100
-import com.baidu.carlife.sdk.internal.audio.recorder.VoiceManager
 import com.baidu.carlife.sdk.internal.protocol.CarLifeMessage
 import com.baidu.carlife.sdk.internal.protocol.ServiceTypes
 import com.baidu.carlife.sdk.internal.transport.TransportListener
@@ -29,6 +28,7 @@ import com.baidu.carlife.sdk.receiver.FileTransferListener
 import com.baidu.carlife.sdk.receiver.OnPhoneStateChangeListener
 import com.baidu.carlife.sdk.receiver.view.RemoteDisplayGLView
 import com.baidu.carlife.sdk.util.Logger
+import com.baidu.carlifevehicle.audio.recorder.VoiceManager
 import com.baidu.carlifevehicle.fragment.*
 import com.baidu.carlifevehicle.message.MsgBaseHandler
 import com.baidu.carlifevehicle.message.MsgHandlerCenter

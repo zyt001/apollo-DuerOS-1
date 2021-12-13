@@ -17,7 +17,8 @@ import com.baidu.carlife.sdk.Constants
 import com.baidu.carlife.sdk.Constants.TAG
 import com.baidu.carlife.sdk.receiver.CarLife
 import com.baidu.carlife.sdk.sender.display.DisplaySpec
-import com.baidu.carlife.sdk.internal.audio.recorder.VoiceManager
+import com.baidu.carlifevehicle.audio.recorder.VoiceManager
+import com.baidu.carlifevehicle.audio.recorder.VoiceMessageHandler
 import com.baidu.carlifevehicle.protocol.ControllerHandler
 import com.baidu.carlifevehicle.util.CarlifeConfUtil
 
@@ -68,8 +69,7 @@ class VehicleApplication : Application() {
             CONFIG_USE_ASYNC_USB_MODE to false,
             CONFIG_PROTOCOL_VERSION to 4,
             CONFIG_TARGET_BLUETOOTH_NAME to "MI88",
-            CONFIG_WIFI_DIRECT_NAME to "Mi9Pro5G",
-            CONFIG_VOICE_RECORD_SDK to true
+            CONFIG_WIFI_DIRECT_NAME to "Mi9Pro5G"
         )
 
         Log.d(
@@ -84,8 +84,10 @@ class VehicleApplication : Application() {
             CarlifeActivity::class.java,
             configs
         )
+
         VoiceManager.init(CarLife.receiver())
         CarLife.receiver().setDisplaySpec(displaySpec)
+        CarLife.receiver().registerTransportListener(VoiceMessageHandler())
         CarLife.receiver().registerTransportListener(ControllerHandler())
 
 
