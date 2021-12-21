@@ -52,12 +52,6 @@ CONFIG_WIRLESS_FREQUENCY = 1
 # 是否支持蓝牙音频
 CONFIG_BLUETOOTH_AUDIO = false
 
-# 车机端wifi直连的名字
-CONFIG_WIFI_DIRECT_NAME = Mi9Pro5G
-
-# 手机端蓝牙名称
-CONFIG_TARGET_BLUETOOTH_NAME = MI88
-
 # 车机端蓝牙名称
 CONFIG_HU_BT_NAME = xxx
 
