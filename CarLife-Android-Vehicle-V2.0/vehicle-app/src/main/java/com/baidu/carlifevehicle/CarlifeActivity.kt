@@ -66,7 +66,7 @@ class CarlifeActivity : AppCompatActivity(),
     private var phoneName = ""
     private var mIsCalling: Boolean = false
     private var mIsCallComing: Boolean = false
-    private var mIsInitConfig: Boolean = false;
+    private var mIsInitConfig: Boolean = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

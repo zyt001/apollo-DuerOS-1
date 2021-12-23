@@ -101,7 +101,7 @@
                     android:textSize="20sp"
                     android:button="@null"
                     android:padding="10dp"
-                    android:text="直连"/>
+                    android:text="无感"/>
 
             </RadioGroup>
 
