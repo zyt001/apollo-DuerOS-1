@@ -21,6 +21,8 @@ import com.baidu.carlifevehicle.audio.recorder.VoiceManager
 import com.baidu.carlifevehicle.audio.recorder.VoiceMessageHandler
 import com.baidu.carlifevehicle.protocol.ControllerHandler
 import com.baidu.carlifevehicle.util.CarlifeConfUtil
+import com.baidu.carlifevehicle.util.CommonParams.CONNECT_TYPE_SHARED_PREFERENCES
+import com.baidu.carlifevehicle.util.PreferenceUtil
 
 class VehicleApplication : Application() {
 
@@ -40,6 +42,7 @@ class VehicleApplication : Application() {
         super.onCreate()
         app = this
 
+        PreferenceUtil.getInstance().init(this)
         resetUsbDeviceIfNecessary()
         CarlifeConfUtil.getInstance().init()
         initReceiver()
@@ -57,15 +60,17 @@ class VehicleApplication : Application() {
             30
         )
 
+        val type = PreferenceUtil.getInstance()
+            .getInt(CONNECT_TYPE_SHARED_PREFERENCES, CarLifeContext.CONNECTION_TYPE_AOA)
+
         val features = mapOf(
             FEATURE_CONFIG_USB_MTU to 16 * 1024,
             FEATURE_CONFIG_I_FRAME_INTERVAL to 300,
-            FEATURE_CONFIG_CONNECT_TYPE to CarLifeContext.CONNECTION_TYPE_AOA
+            FEATURE_CONFIG_CONNECT_TYPE to type
         )
 
         val configs = mapOf(
             CONFIG_LOG_LEVEL to Log.DEBUG,
-            CONFIG_CONTENT_ENCRYPTION to true,
             CONFIG_USE_ASYNC_USB_MODE to false,
             CONFIG_PROTOCOL_VERSION to 4
         )

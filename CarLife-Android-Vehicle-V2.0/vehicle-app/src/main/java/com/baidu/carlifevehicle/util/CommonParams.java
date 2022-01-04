@@ -423,6 +423,7 @@ public class CommonParams {
     public static final String CARLIFE_CONNECT_COUNT = "connect_count";
 
     public static final String CONNECT_STATUS_SHARED_PREFERENCES = "CarlifeConnectStatus";
+    public static final String CONNECT_TYPE_SHARED_PREFERENCES = "CarlifeConnectType";
     public static final String CONNECT_STATUS = "connect_status";
     public static final String CARLIFE_INSTALLED = "carlife_installed";
     public static final String MODULE_ID = "module_id";

@@ -11,6 +11,7 @@ import android.view.SurfaceHolder
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat
@@ -41,6 +42,7 @@ import com.baidu.carlifevehicle.util.CarlifeUtil
 import com.baidu.carlifevehicle.util.CommonParams
 import com.baidu.carlifevehicle.util.PreferenceUtil
 import com.baidu.carlifevehicle.view.CarlifeMessageDialog
+import com.permissionx.guolindev.PermissionX
 
 class CarlifeActivity : AppCompatActivity(),
     ConnectProgressListener, SurfaceHolder.Callback,
@@ -75,8 +77,8 @@ class CarlifeActivity : AppCompatActivity(),
         mSurfaceView = findViewById(R.id.video_surface_view)
 
         mRootView = findViewById(R.id.root_view)
-
-        PreferenceUtil.getInstance().init(this@CarlifeActivity)
+//
+//        PreferenceUtil.getInstance().init(this@CarlifeActivity)
         mCarLifeFragmentManager = CarLifeFragmentManager(this)
         // initialize basefragment, must be called before using it's subclass
         BaseFragment.initBeforeAll(this)
@@ -102,7 +104,9 @@ class CarlifeActivity : AppCompatActivity(),
             Logger.d("zwh", "file>>>>>", file.absolutePath)
             ApkInstall.installApk(this@CarlifeActivity, file.path)
         })
-        requestRecordPermission(Manifest.permission.RECORD_AUDIO)
+//        requestRecordPermission(Manifest.permission.RECORD_AUDIO)
+
+        requestPermission()
 
         ControlTestWindow.getInstance().init(this@CarlifeActivity, mRootView)
 
@@ -116,12 +120,41 @@ class CarlifeActivity : AppCompatActivity(),
 
         mMainActivityHandler = MsgMainActivityHandler()
         MsgHandlerCenter.registerMessageHandler(mMainActivityHandler)
-        (mMainActivityHandler as MsgMainActivityHandler).sendEmptyMessageDelayed(CommonParams.MSG_CONNECT_INIT, 500)
+        (mMainActivityHandler as MsgMainActivityHandler).sendEmptyMessageDelayed(
+            CommonParams.MSG_CONNECT_INIT,
+            500
+        )
 
     }
 
     fun getCarLifeVehicleFragmentManager(): CarLifeFragmentManager? {
         return mCarLifeFragmentManager
+    }
+
+    private fun requestPermission() {
+        PermissionX.init(this)
+            .permissions(
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+            .onExplainRequestReason { scope, deniedList ->
+                scope.showRequestReasonDialog(
+                    deniedList,
+                    "打开权限",
+                    "确定",
+                    "取消"
+                )
+            }
+            .request { allGranted, grantedList, deniedList ->
+                if (!allGranted) {
+                    Toast.makeText(
+                        this,
+                        "权限未打开: $deniedList",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
     }
 
     // 配置语音录音的请求权限，暂时现这样处理，后面封装成统一的工具类
@@ -170,7 +203,12 @@ class CarlifeActivity : AppCompatActivity(),
     }
 
     override fun onProgress(progress: Int) {
-        MsgHandlerCenter.dispatchMessage(CommonParams.MSG_CONNECT_CHANGE_PROGRESS_NUMBER, progress, 0, null)
+        MsgHandlerCenter.dispatchMessage(
+            CommonParams.MSG_CONNECT_CHANGE_PROGRESS_NUMBER,
+            progress,
+            0,
+            null
+        )
         if (progress == VALUE_PROGRESS_100) {
             MsgHandlerCenter.dispatchMessage(CommonParams.MSG_CMD_VIDEO_ENCODER_START)
         }
@@ -212,9 +250,9 @@ class CarlifeActivity : AppCompatActivity(),
     }
 
     override fun onReceiveMessage(context: CarLifeContext, message: CarLifeMessage): Boolean {
-        when(message.serviceType) {
+        when (message.serviceType) {
             ServiceTypes.MSG_CMD_CONNECT_EXCEPTION -> {
-                val response= message.protoPayload as CarlifeConnectException
+                val response = message.protoPayload as CarlifeConnectException
                 handleConnectException(response)
             }
         }
@@ -294,12 +332,15 @@ class CarlifeActivity : AppCompatActivity(),
         }
     }
 
-    private inner class MsgMainActivityHandler: MsgBaseHandler() {
+    private inner class MsgMainActivityHandler : MsgBaseHandler() {
 
         override fun handleMessage(msg: Message) {
             try {
-                Logger.d(TAG, "MsgMainActivityHandler handleMessage get msg: " + CommonParams.getMsgName(msg.what))
-                when(msg.what) {
+                Logger.d(
+                    TAG,
+                    "MsgMainActivityHandler handleMessage get msg: " + CommonParams.getMsgName(msg.what)
+                )
+                when (msg.what) {
                     CommonParams.MSG_CONNECT_INIT -> {
                         if (CarlifeConfUtil.getInstance().readConfStatus) {
                             init()
@@ -328,7 +369,10 @@ class CarlifeActivity : AppCompatActivity(),
                         if (!mIsInitConfig) {
                             // 如果配置加载失败，则延时500再回来执行。保证配置加载成功再去连接手机端
                             Logger.d(TAG, "mIsInitConfig is $mIsInitConfig, so delay 500")
-                            MsgHandlerCenter.dispatchMessageDelay(CommonParams.MSG_MAIN_DISPLAY_MAIN_FRAGMENT, 500)
+                            MsgHandlerCenter.dispatchMessageDelay(
+                                CommonParams.MSG_MAIN_DISPLAY_MAIN_FRAGMENT,
+                                500
+                            )
                             return
                         }
 
@@ -349,18 +393,24 @@ class CarlifeActivity : AppCompatActivity(),
                         Logger.d(TAG, "mIsCalling=$mIsCalling")
                         if (mIsCalling) {
                             if (mIsCallComing) {
-                                ExceptionFragment.getInstance().changeTipsCallback(resources.getString(R.string.line_is_coming))
-                                ExceptionFragment.getInstance().changeDrawableCallback(R.drawable.car_ic_incoming)
+                                ExceptionFragment.getInstance()
+                                    .changeTipsCallback(resources.getString(R.string.line_is_coming))
+                                ExceptionFragment.getInstance()
+                                    .changeDrawableCallback(R.drawable.car_ic_incoming)
                                 ExceptionFragment.getInstance().setStartAppBtnHide()
                             } else {
-                                ExceptionFragment.getInstance().changeTipsCallback(resources.getString(R.string.line_is_busy))
-                                ExceptionFragment.getInstance().changeDrawableCallback(R.drawable.car_ic_calling)
+                                ExceptionFragment.getInstance()
+                                    .changeTipsCallback(resources.getString(R.string.line_is_busy))
+                                ExceptionFragment.getInstance()
+                                    .changeDrawableCallback(R.drawable.car_ic_calling)
                                 ExceptionFragment.getInstance().setStartAppBtnHide()
                             }
                         } else {
-                            ExceptionFragment.getInstance().changeTipsCallback(resources.getString(R.string.connect_screenoff_hint))
+                            ExceptionFragment.getInstance()
+                                .changeTipsCallback(resources.getString(R.string.connect_screenoff_hint))
                             ExceptionFragment.getInstance().setStartAppBtnVisible()
-                            ExceptionFragment.getInstance().changeDrawableCallback(R.drawable.car_ic_click)
+                            ExceptionFragment.getInstance()
+                                .changeDrawableCallback(R.drawable.car_ic_click)
                         }
                     }
 
@@ -370,7 +420,10 @@ class CarlifeActivity : AppCompatActivity(),
                         if (mIsCallCoverShowed && callStatus == 1) {
                             val builder = CarlifeBTHfpCallStatusCover.newBuilder()
                             if (builder != null) {
-                                Logger.d( "Bt", "Recover callstatus cover on reception of foreground message")
+                                Logger.d(
+                                    "Bt",
+                                    "Recover callstatus cover on reception of foreground message"
+                                )
                                 builder.state = callStatus
                                 if (TextUtils.isEmpty(phoneNum)) {
                                     builder.phoneNum = ""
@@ -383,7 +436,10 @@ class CarlifeActivity : AppCompatActivity(),
                                     builder.name = phoneName
                                 }
 
-                                var message = CarLifeMessage.obtain(Constants.MSG_CHANNEL_CMD, ServiceTypes.MSG_CMD_BT_HFP_CALL_STATUS_COVER)
+                                var message = CarLifeMessage.obtain(
+                                    Constants.MSG_CHANNEL_CMD,
+                                    ServiceTypes.MSG_CMD_BT_HFP_CALL_STATUS_COVER
+                                )
                                 message.payload(builder.build())
 
                                 CarLife.receiver().postMessage(message)
@@ -425,33 +481,85 @@ class CarlifeActivity : AppCompatActivity(),
 
         // 根据配置文件设置相应的配置
         CarLife.receiver().run {
-            setFeature(Configs.FEATURE_CONFIG_VOICE_WAKEUP, CarlifeConfUtil.getInstance().getIntProperty(Configs.FEATURE_CONFIG_VOICE_WAKEUP))
-            setFeature(Configs.FEATURE_CONFIG_VOICE_MIC, CarlifeConfUtil.getInstance().getIntProperty(Configs.FEATURE_CONFIG_VOICE_MIC))
-            setFeature(Configs.FEATURE_CONFIG_BLUETOOTH_INTERNAL_UI, CarlifeConfUtil.getInstance().getIntProperty(Configs.FEATURE_CONFIG_BLUETOOTH_INTERNAL_UI))
-            setFeature(Configs.FEATURE_CONFIG_FOCUS_UI, CarlifeConfUtil.getInstance().getIntProperty(Configs.FEATURE_CONFIG_FOCUS_UI))
+            setFeature(
+                Configs.FEATURE_CONFIG_VOICE_WAKEUP,
+                CarlifeConfUtil.getInstance().getIntProperty(Configs.FEATURE_CONFIG_VOICE_WAKEUP)
+            )
+            setFeature(
+                Configs.FEATURE_CONFIG_VOICE_MIC,
+                CarlifeConfUtil.getInstance().getIntProperty(Configs.FEATURE_CONFIG_VOICE_MIC)
+            )
+            setFeature(
+                Configs.FEATURE_CONFIG_BLUETOOTH_INTERNAL_UI,
+                CarlifeConfUtil.getInstance()
+                    .getIntProperty(Configs.FEATURE_CONFIG_BLUETOOTH_INTERNAL_UI)
+            )
+            setFeature(
+                Configs.FEATURE_CONFIG_FOCUS_UI,
+                CarlifeConfUtil.getInstance().getIntProperty(Configs.FEATURE_CONFIG_FOCUS_UI)
+            )
         }
 
-        if (!TextUtils.isEmpty(CarlifeConfUtil.getInstance().getStringFromMap(Configs.CONFIG_WIFI_DIRECT_NAME))) {
-            CarLife.receiver().setConfig(Configs.CONFIG_WIFI_DIRECT_NAME, CarlifeConfUtil.getInstance().getStringFromMap(Configs.CONFIG_WIFI_DIRECT_NAME))
+        if (!TextUtils.isEmpty(
+                CarlifeConfUtil.getInstance().getStringFromMap(Configs.CONFIG_WIFI_DIRECT_NAME)
+            )
+        ) {
+            CarLife.receiver().setConfig(
+                Configs.CONFIG_WIFI_DIRECT_NAME,
+                CarlifeConfUtil.getInstance().getStringFromMap(Configs.CONFIG_WIFI_DIRECT_NAME)
+            )
         }
 
-        if (!TextUtils.isEmpty(CarlifeConfUtil.getInstance().getStringFromMap(Configs.CONFIG_TARGET_BLUETOOTH_NAME))) {
-            CarLife.receiver().setConfig(Configs.CONFIG_TARGET_BLUETOOTH_NAME, CarlifeConfUtil.getInstance().getStringFromMap(Configs.CONFIG_TARGET_BLUETOOTH_NAME))
+        if (!TextUtils.isEmpty(
+                CarlifeConfUtil.getInstance().getStringFromMap(Configs.CONFIG_TARGET_BLUETOOTH_NAME)
+            )
+        ) {
+            CarLife.receiver().setConfig(
+                Configs.CONFIG_TARGET_BLUETOOTH_NAME,
+                CarlifeConfUtil.getInstance().getStringFromMap(Configs.CONFIG_TARGET_BLUETOOTH_NAME)
+            )
         }
 
-        if (!TextUtils.isEmpty(CarlifeConfUtil.getInstance().getStringFromMap(Configs.CONFIG_HU_BT_NAME))) {
-            CarLife.receiver().setConfig(Configs.CONFIG_HU_BT_NAME, CarlifeConfUtil.getInstance().getStringFromMap(Configs.CONFIG_HU_BT_NAME))
+        if (!TextUtils.isEmpty(
+                CarlifeConfUtil.getInstance().getStringFromMap(Configs.CONFIG_HU_BT_NAME)
+            )
+        ) {
+            CarLife.receiver().setConfig(
+                Configs.CONFIG_HU_BT_NAME,
+                CarlifeConfUtil.getInstance().getStringFromMap(Configs.CONFIG_HU_BT_NAME)
+            )
         }
 
-        if (!TextUtils.isEmpty(CarlifeConfUtil.getInstance().getStringFromMap(Configs.CONFIG_HU_BT_MAC))) {
-            CarLife.receiver().setConfig(Configs.CONFIG_HU_BT_MAC, CarlifeConfUtil.getInstance().getStringFromMap(Configs.CONFIG_HU_BT_MAC))
+        if (!TextUtils.isEmpty(
+                CarlifeConfUtil.getInstance().getStringFromMap(Configs.CONFIG_HU_BT_MAC)
+            )
+        ) {
+            CarLife.receiver().setConfig(
+                Configs.CONFIG_HU_BT_MAC,
+                CarlifeConfUtil.getInstance().getStringFromMap(Configs.CONFIG_HU_BT_MAC)
+            )
         }
 
-        CarLife.receiver().setConfig(Configs.CONFIG_LOG_LEVEL, CarlifeConfUtil.getInstance().getIntProperty(Configs.CONFIG_LOG_LEVEL))
-        CarLife.receiver().setConfig(Configs.CONFIG_WIRLESS_TYPE, CarlifeConfUtil.getInstance().getIntProperty(Configs.CONFIG_WIRLESS_TYPE))
-        CarLife.receiver().setConfig(Configs.CONFIG_WIRLESS_FREQUENCY, CarlifeConfUtil.getInstance().getIntProperty(Configs.CONFIG_WIRLESS_FREQUENCY))
-        CarLife.receiver().setConfig(Configs.CONFIG_SAVE_AUDIO_FILE, CarlifeConfUtil.getInstance().getBooleanProperty(Configs.CONFIG_SAVE_AUDIO_FILE))
-        CarLife.receiver().setConfig(Configs.CONFIG_USE_BT_AUDIO, CarlifeConfUtil.getInstance().getBooleanProperty(Configs.CONFIG_USE_BT_AUDIO))
+        CarLife.receiver().setConfig(
+            Configs.CONFIG_LOG_LEVEL,
+            CarlifeConfUtil.getInstance().getIntProperty(Configs.CONFIG_LOG_LEVEL)
+        )
+        CarLife.receiver().setConfig(
+            Configs.CONFIG_WIRLESS_TYPE,
+            CarlifeConfUtil.getInstance().getIntProperty(Configs.CONFIG_WIRLESS_TYPE)
+        )
+        CarLife.receiver().setConfig(
+            Configs.CONFIG_WIRLESS_FREQUENCY,
+            CarlifeConfUtil.getInstance().getIntProperty(Configs.CONFIG_WIRLESS_FREQUENCY)
+        )
+        CarLife.receiver().setConfig(
+            Configs.CONFIG_SAVE_AUDIO_FILE,
+            CarlifeConfUtil.getInstance().getBooleanProperty(Configs.CONFIG_SAVE_AUDIO_FILE)
+        )
+        CarLife.receiver().setConfig(
+            Configs.CONFIG_USE_BT_AUDIO,
+            CarlifeConfUtil.getInstance().getBooleanProperty(Configs.CONFIG_USE_BT_AUDIO)
+        )
 
         // 根据渠道号构建static info 信息
         CarLife.receiver().initStatisticsInfo(CommonParams.vehicleChannel, "12345678")

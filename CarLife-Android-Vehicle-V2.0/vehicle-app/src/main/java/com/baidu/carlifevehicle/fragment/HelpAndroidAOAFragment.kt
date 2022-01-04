@@ -15,19 +15,21 @@
  */
 package com.baidu.carlifevehicle.fragment
 
-import com.baidu.carlife.sdk.util.Logger.Companion.d
+import android.Manifest
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import android.os.Bundle
-import android.view.View
+import android.widget.Toast
 import com.baidu.carlife.sdk.CarLifeContext
 import com.baidu.carlife.sdk.receiver.CarLife
-import com.baidu.carlifevehicle.fragment.HelpAndroidAOAFragment
+import com.baidu.carlife.sdk.util.Logger.Companion.d
 import com.baidu.carlifevehicle.R
-import com.baidu.carlifevehicle.fragment.AuthorizationRequestHelpFragment
-import com.baidu.carlifevehicle.fragment.HelpMainFragment
+import com.baidu.carlifevehicle.util.CommonParams
+import com.baidu.carlifevehicle.util.PreferenceUtil
+import com.permissionx.guolindev.PermissionX
 import kotlinx.android.synthetic.main.frag_help_android.*
 
 class HelpAndroidAOAFragment : BaseFragment() {
@@ -87,11 +89,55 @@ class HelpAndroidAOAFragment : BaseFragment() {
         )
         _connect_type.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
-                R.id._usb -> CarLife.receiver().setConnectType(CarLifeContext.CONNECTION_TYPE_AOA)
-                R.id._wifi -> CarLife.receiver()
-                    .setConnectType(CarLifeContext.CONNECTION_TYPE_HOTSPOT)
-                R.id._dir -> CarLife.receiver()
-                    .setConnectType(CarLifeContext.CONNECTION_TYPE_WIFIDIRECT)
+                R.id._usb -> {
+                    CarLife.receiver().setConnectType(CarLifeContext.CONNECTION_TYPE_AOA)
+                    PreferenceUtil.getInstance()
+                        .putInt(
+                            CommonParams.CONNECT_TYPE_SHARED_PREFERENCES,
+                            CarLifeContext.CONNECTION_TYPE_AOA
+                        )
+                }
+                R.id._wifi -> {
+                    CarLife.receiver()
+                        .setConnectType(CarLifeContext.CONNECTION_TYPE_HOTSPOT)
+                    PreferenceUtil.getInstance()
+                        .putInt(
+                            CommonParams.CONNECT_TYPE_SHARED_PREFERENCES,
+                            CarLifeContext.CONNECTION_TYPE_HOTSPOT
+                        )
+                }
+                R.id._dir -> {
+                    PermissionX.init(this)
+                        .permissions(
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                        )
+                        .onExplainRequestReason { scope, deniedList ->
+                            scope.showRequestReasonDialog(
+                                deniedList,
+                                "打开权限",
+                                "确定",
+                                "取消"
+                            )
+                        }
+                        .request { allGranted, grantedList, deniedList ->
+                            if (!allGranted) {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "权限未打开: $deniedList",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            } else {
+                                CarLife.receiver()
+                                    .setConnectType(CarLifeContext.CONNECTION_TYPE_WIFIDIRECT)
+                                PreferenceUtil.getInstance()
+                                    .putInt(
+                                        CommonParams.CONNECT_TYPE_SHARED_PREFERENCES,
+                                        CarLifeContext.CONNECTION_TYPE_WIFIDIRECT
+                                    )
+                            }
+                        }
+                }
             }
         }
     }

@@ -412,12 +412,18 @@ class AudioPlayTask(
                         }
                         audioTrack?.write(buffer.array, 0, readSize)
                     }
+
                     // 更新时间点
-                    positionTracker.track(readSize)
+                    if (!isReceiver) {
+                        positionTracker.track(readSize)
+                    }
 
                     Logger.v(Constants.TAG, "AudioPlayTask streamPlay readSize $readSize")
                 } else {
-                    positionTracker.sync(0)
+                    // 重置
+                    if (!isReceiver) {
+                        positionTracker.sync(0)
+                    }
                     break
                 }
 
