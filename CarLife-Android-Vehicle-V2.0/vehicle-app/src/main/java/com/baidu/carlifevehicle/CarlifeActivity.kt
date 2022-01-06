@@ -44,8 +44,7 @@ import com.baidu.carlifevehicle.util.PreferenceUtil
 import com.baidu.carlifevehicle.view.CarlifeMessageDialog
 import com.permissionx.guolindev.PermissionX
 
-class CarlifeActivity : AppCompatActivity(),
-    ConnectProgressListener, SurfaceHolder.Callback,
+class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
     TransportListener, View.OnClickListener, OnPhoneStateChangeListener, WirlessStatusListener {
     public var mIsConnectException = false
     private lateinit var mSurfaceView: RemoteDisplayGLView
@@ -188,18 +187,6 @@ class CarlifeActivity : AppCompatActivity(),
 
         CarLife.receiver().unregisterWirlessStatusListeners(this)
         MsgHandlerCenter.unRegisterMessageHandler(mMainActivityHandler)
-    }
-
-    override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
-        mSurface = holder.surface
-        CarLife.receiver().setSurface(mSurface)
-    }
-
-    override fun surfaceCreated(holder: SurfaceHolder) {
-    }
-
-    override fun surfaceDestroyed(holder: SurfaceHolder) {
-        CarLife.receiver().setSurface(null)
     }
 
     override fun onProgress(progress: Int) {
