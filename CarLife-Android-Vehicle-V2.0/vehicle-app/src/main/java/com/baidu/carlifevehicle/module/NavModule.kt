@@ -5,6 +5,7 @@ import com.baidu.carlife.protobuf.CarlifeTTSInitProto
 import com.baidu.carlife.sdk.CarLifeContext
 import com.baidu.carlife.sdk.CarLifeModule
 import com.baidu.carlife.sdk.Constants
+import com.baidu.carlife.sdk.internal.CarLifeContextImpl
 import com.baidu.carlifevehicle.audio.player.AudioPlayer
 import com.baidu.carlifevehicle.audio.player.source.AudioSource
 import com.baidu.carlife.sdk.internal.protocol.CarLifeMessage
@@ -14,13 +15,11 @@ import com.baidu.carlife.sdk.util.Logger
 import com.baidu.carlifevehicle.CarlifeActivity
 import com.baidu.carlifevehicle.audio.AudioFocusManager
 
-class NavModule(private val context: CarLifeContext,
-                private val activity: CarlifeActivity)
+class NavModule(private val context: CarLifeContext)
     : CarLifeModule(),
     AudioManager.OnAudioFocusChangeListener,
     AudioPlayer.Callbacks {
     private val player = AudioPlayer(context, Constants.MSG_CHANNEL_AUDIO_TTS, true, this)
-    private val audioFocusManager = AudioFocusManager(activity)
 
     private var source: CarLifeStreamSource? = null
 
@@ -40,7 +39,7 @@ class NavModule(private val context: CarLifeContext,
 
     override fun onConnectionDetached(context: CarLifeContext) {
         // 连接断开之后，需要释放焦点
-        context.abandonAudioFocus(this)
+        (context as CarLifeContextImpl).audioFocusManager.abandonAudioFocus(this)
         // stop current source
         stop()
     }
@@ -75,7 +74,7 @@ class NavModule(private val context: CarLifeContext,
         val payload = message.protoPayload as CarlifeTTSInitProto.CarlifeTTSInit
         source = CarLifeStreamSource.from(context, payload)
         // 播放新内容之前，请求一下焦点, 因为不像音乐有3，1和3，0可以用来切换焦点
-        audioFocusManager.requestAudioFocus(
+        (context as CarLifeContextImpl).audioFocusManager.requestAudioFocus(
             this,
             AudioFocusManager.STREAM_NAVI,
             AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK)

@@ -7,6 +7,7 @@ import com.baidu.carlife.sdk.CarLifeContext
 import com.baidu.carlife.sdk.CarLifeModule
 import com.baidu.carlife.sdk.Configs
 import com.baidu.carlife.sdk.Constants
+import com.baidu.carlife.sdk.internal.CarLifeContextImpl
 import com.baidu.carlifevehicle.audio.player.AudioPlayer
 import com.baidu.carlifevehicle.audio.player.source.AudioSource
 import com.baidu.carlifevehicle.audio.CarLifeStreamSource
@@ -15,15 +16,12 @@ import com.baidu.carlife.sdk.internal.protocol.CarLifeMessage
 import com.baidu.carlife.sdk.internal.protocol.ServiceTypes
 import com.baidu.carlife.sdk.receiver.CarLife
 import com.baidu.carlife.sdk.util.Logger
-import com.baidu.carlifevehicle.CarlifeActivity
 
-class MusicModule(private val context: CarLifeContext,
-                  private val activity: CarlifeActivity): CarLifeModule(),
+class MusicModule(private val context: CarLifeContext): CarLifeModule(),
     AudioManager.OnAudioFocusChangeListener,
     AudioPlayer.Callbacks {
 
     private val player = AudioPlayer(context, Constants.MSG_CHANNEL_AUDIO, true, this)
-    private val audioFocusManager = AudioFocusManager(activity)
     private var focusDelayed = false
 
     private var source: CarLifeStreamSource? = null
@@ -36,7 +34,7 @@ class MusicModule(private val context: CarLifeContext,
         when (newState) {
             Constants.MUSIC_STATUS_RUNNING -> {
                 // 请求音频焦点
-                focusDelayed = audioFocusManager.requestAudioFocus(
+                focusDelayed = (context as CarLifeContextImpl).audioFocusManager.requestAudioFocus(
                     this,
                     AudioFocusManager.STREAM_MUSIC,
                     AudioManager.AUDIOFOCUS_GAIN,
@@ -44,7 +42,7 @@ class MusicModule(private val context: CarLifeContext,
                 ) == AudioFocusManager.AUDIOFOCUS_REQUEST_DELAYED
             }
             Constants.MUSIC_STATUS_IDLE -> {
-                context.abandonAudioFocus(this)
+                (context as CarLifeContextImpl).audioFocusManager.abandonAudioFocus(this)
             }
         }
 

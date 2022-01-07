@@ -12,13 +12,12 @@ import com.baidu.carlifevehicle.message.MsgHandlerCenter
 import com.baidu.carlifevehicle.util.CommonParams
 
 class PhoneModule(private val context: CarLifeContext,
-                  private val activity: CarlifeActivity,
                   val callback: OnPhoneStateChangeListener)
     : CarLifeModule() {
     override val id: Int = Constants.PHONE_MODULE_ID
 
     override fun onModuleStateChanged(newState: Int, oldState: Int) {
-        Logger.d(Constants.TAG, "newState: $newState, activity.mIsConnectException: ${activity.mIsConnectException}")
+//        Logger.d(Constants.TAG, "newState: $newState, activity.mIsConnectException: ${activity.mIsConnectException}")
         // 电话状态车机端无需任何处理
 //        when(newState) {
 //            Constants.PHONE_STATUS_IDLE  -> {

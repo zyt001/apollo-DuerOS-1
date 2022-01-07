@@ -6,6 +6,7 @@ import com.baidu.carlife.sdk.CarLifeContext
 import com.baidu.carlife.sdk.CarLifeModule
 import com.baidu.carlife.sdk.Configs
 import com.baidu.carlife.sdk.Constants
+import com.baidu.carlife.sdk.internal.CarLifeContextImpl
 import com.baidu.carlifevehicle.audio.player.AudioPlayer
 import com.baidu.carlifevehicle.audio.player.source.AudioParams
 import com.baidu.carlifevehicle.audio.player.source.AudioSource
@@ -14,23 +15,21 @@ import com.baidu.carlife.sdk.internal.protocol.CarLifeMessage
 import com.baidu.carlife.sdk.internal.protocol.ServiceTypes
 import com.baidu.carlifevehicle.audio.CarLifeStreamSource
 import com.baidu.carlife.sdk.util.Logger
-import com.baidu.carlifevehicle.CarlifeActivity
 import com.baidu.carlifevehicle.audio.AudioFocusManager
 
-class VRModule(private val context: CarLifeContext,
-               private val activity: CarlifeActivity)
-    : CarLifeModule(), AudioManager.OnAudioFocusChangeListener, AudioPlayer.Callbacks {
+class VRModule(
+    private val context: CarLifeContext
+) : CarLifeModule(), AudioManager.OnAudioFocusChangeListener, AudioPlayer.Callbacks {
     private val player = AudioPlayer(context, Constants.MSG_CHANNEL_AUDIO_VR, true, this)
-    private val audioFocusManager = AudioFocusManager(activity)
 
     private var source: CarLifeStreamSource? = null
 
     override val id: Int = Constants.VR_MODULE_ID
 
-    val shortSource: AudioSource by lazy {
+    private val shortSource: AudioSource by lazy {
         val fd = context.applicationContext.assets.openFd("bdspeech_recognition_start.pcm")
         val params = AudioParams.from(16000, 1, 16)
-        PcmMemorySource.fromAsset(params,fd).apply {
+        PcmMemorySource.fromAsset(params, fd).apply {
             streamType = AudioFocusManager.STREAM_VR
             focusType = AudioManager.AUDIOFOCUS_GAIN_TRANSIENT
         }
@@ -42,7 +41,7 @@ class VRModule(private val context: CarLifeContext,
         when (newState) {
             Constants.VR_STATUS_RUNNING -> {
                 // 请求音频焦点
-                audioFocusManager.requestAudioFocus(
+                (context as CarLifeContextImpl).audioFocusManager.requestAudioFocus(
                     this,
                     AudioFocusManager.STREAM_VR,
                     // 语音使用此标记，可以禁止系统发声
@@ -50,7 +49,7 @@ class VRModule(private val context: CarLifeContext,
                 )
             }
             Constants.VR_STATUS_IDLE -> {
-                context.abandonAudioFocus(this)
+                (context as CarLifeContextImpl).audioFocusManager.abandonAudioFocus(this)
                 // 如果CarLife通知释放焦点，则停止播放，
                 // 对于MusicModule此处不能停止播放，因为音乐有暂停、继续的操作
                 // 这样也可能有问题,如果播放百科这种比较长的语音，会导致未播放完成就停止了
@@ -62,7 +61,8 @@ class VRModule(private val context: CarLifeContext,
     override fun onReceiveMessage(context: CarLifeContext, message: CarLifeMessage): Boolean {
         // 只处理语音通道的消息
         if (message.channel == Constants.MSG_CHANNEL_AUDIO_VR &&
-            !context.getConfig(Configs.CONFIG_USE_BT_VOICE, false)) {
+            !context.getConfig(Configs.CONFIG_USE_BT_VOICE, false)
+        ) {
             when (message.serviceType) {
                 ServiceTypes.MSG_VR_AUDIO_INIT -> handleVrInit(message)
                 ServiceTypes.MSG_VR_AUDIO_STOP -> end()
@@ -72,12 +72,11 @@ class VRModule(private val context: CarLifeContext,
         }
 
         //增加对车机端叮一声的处理
-        when(message.serviceType) {
-            ServiceTypes.MSG_CMD_MIC_RECORD_WAKEUP_START -> startPlayDingAudio()
-            ServiceTypes.MSG_CMD_MIC_RECORD_RECOG_START -> {
-                context.postMessage(Constants.MSG_CHANNEL_CMD, ServiceTypes.MSG_CMD_MIC_RECORD_RECOG_DONE)
-            }
+        if (message.serviceType == ServiceTypes.MSG_CMD_MIC_RECORD_PREPARE_START) {
+            state = Constants.VR_STATUS_IDLE
+            player.play(shortSource)
         }
+
         return false
     }
 
@@ -123,10 +122,6 @@ class VRModule(private val context: CarLifeContext,
         player.play(source!!)
     }
 
-    private fun startPlayDingAudio() {
-        player.play(shortSource)
-    }
-
     // AudioPlayer.Callbacks
     override fun onAudioChanged(source: AudioSource) {
     }
@@ -138,11 +133,22 @@ class VRModule(private val context: CarLifeContext,
     }
 
     override fun onFinish(source: AudioSource, completed: Boolean) {
-        context.postMessage(Constants.MSG_CHANNEL_CMD,
-            ServiceTypes.MSG_CMD_MIC_RECORD_WAKEUP_DONE
-        )
+        Logger.d(Constants.TAG, "VRModule onFinish ", source)
+        if (source === shortSource) {
+            context.postMessage(
+                Constants.MSG_CHANNEL_CMD,
+                ServiceTypes.MSG_CMD_MIC_RECORD_PREPARE_DONE
+            )
+        }
     }
 
     override fun onError(source: AudioSource, errorCode: Int, errorMessage: String) {
+        Logger.d(Constants.TAG, "VRModule onError ", source)
+        if (source === shortSource) {
+            context.postMessage(
+                Constants.MSG_CHANNEL_CMD,
+                ServiceTypes.MSG_CMD_MIC_RECORD_PREPARE_DONE
+            )
+        }
     }
 }
