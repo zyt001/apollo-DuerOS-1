@@ -5,8 +5,8 @@ package com.baidu.carlifevehicle.audio.recorder
 
 import android.media.AudioManager
 import com.baidu.carlife.sdk.CarLifeContext
+import com.baidu.carlife.sdk.internal.audio.AudioFocusManager
 import com.baidu.carlife.sdk.util.Logger
-import com.baidu.carlifevehicle.audio.AudioFocusManager
 
 /**
  * 录音工具

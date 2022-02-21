@@ -85,9 +85,9 @@ class AudioPlayer(
         }
 
         override fun isRemotePlay(): Boolean {
-            var isRemotePlay = CarLife.sender().getConfig(Configs.CONFIG_USE_BT_AUDIO, false)
+            var isRemotePlay = CarLife.sender().getFeature(Configs.FEATURE_CONFIG_AUDIO_TRANSMISSION_MODE, 0)
             Logger.d(Constants.TAG, "AudioPlayer isRemotePlay: $isRemotePlay")
-            return !isRemotePlay
+            return isRemotePlay == 0
         }
     }
 

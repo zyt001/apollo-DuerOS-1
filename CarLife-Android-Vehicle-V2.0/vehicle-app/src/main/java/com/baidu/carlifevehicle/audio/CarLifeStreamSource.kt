@@ -1,34 +1,48 @@
 package com.baidu.carlifevehicle.audio
 
+import android.media.AudioFormat
 import android.media.AudioManager
+import android.media.AudioTrack
+import android.media.AudioTrack.PLAYSTATE_PLAYING
 import com.baidu.carlife.protobuf.CarlifeMusicInitProto
 import com.baidu.carlife.protobuf.CarlifeTTSInitProto
 import com.baidu.carlife.sdk.CarLifeContext
-import com.baidu.carlifevehicle.audio.player.source.AudioParams
+import com.baidu.carlife.sdk.Constants
 import com.baidu.carlife.sdk.internal.protocol.CarLifeMessage
 import com.baidu.carlife.sdk.util.CircularByteBuffer
+import com.baidu.carlife.sdk.util.Logger
+import com.baidu.carlifevehicle.audio.player.source.AudioParams
 import com.baidu.carlifevehicle.audio.player.source.AudioSource
 import com.baidu.carlifevehicle.audio.player.source.ResizableArray
-import java.lang.UnsupportedOperationException
 import java.util.*
 
-class CarLifeStreamSource(private val context: CarLifeContext,
-                          private val params: AudioParams,
-                          storageSize: Int): AudioSource {
+class CarLifeStreamSource(
+    private val context: CarLifeContext,
+    val params: AudioParams,
+    storageSize: Int
+) : AudioSource {
     companion object {
-        fun from(context: CarLifeContext, payload: CarlifeMusicInitProto.CarlifeMusicInit): CarLifeStreamSource {
-            val params = AudioParams(payload.sampleRate, payload.channelConfig, payload.sampleFormat)
+        fun from(
+            context: CarLifeContext,
+            payload: CarlifeMusicInitProto.CarlifeMusicInit
+        ): CarLifeStreamSource {
+            val params =
+                AudioParams(payload.sampleRate, payload.channelConfig, payload.sampleFormat)
             // 音乐通道数据量大，100K缓存
             return CarLifeStreamSource(context, params, 100 * 1024)
         }
 
-        fun from(context: CarLifeContext, payload: CarlifeTTSInitProto.CarlifeTTSInit): CarLifeStreamSource {
-            val params = AudioParams(payload.sampleRate, payload.channelConfig, payload.sampleFormat)
+        fun from(
+            context: CarLifeContext,
+            payload: CarlifeTTSInitProto.CarlifeTTSInit
+        ): CarLifeStreamSource {
+            val params =
+                AudioParams(payload.sampleRate, payload.channelConfig, payload.sampleFormat)
             return CarLifeStreamSource(context, params, 32 * 1024)
         }
     }
 
-    private val data = CircularByteBuffer(storageSize, true)
+    private val data = CircularByteBuffer(storageSize, false)
     private val messageDelayQueue = LinkedList<CarLifeMessage>()
 
     private var position: Long = 0
@@ -42,17 +56,58 @@ class CarLifeStreamSource(private val context: CarLifeContext,
 
     override var tag: Any? = null
 
+    private val mPlayer: AudioTrack = AudioTrack(
+        AudioManager.STREAM_MUSIC,
+        params.sampleRate,
+        params.channelConfig,
+        AudioFormat.ENCODING_PCM_16BIT,
+        AudioTrack.getMinBufferSize(
+            params.sampleRate,
+            params.channelConfig,
+            params.audioFormat
+        ),
+        AudioTrack.MODE_STREAM
+    )
+
+    private var aacAudioDecoder: AACDecoder = AACDecoder(context, params) {
+        if (!isClosed) {
+
+            while (!isClosed) {
+                if (data.avaliable() < it.size) {
+                    Thread.sleep(10)
+                    continue
+                }
+                data.write(it, 0, it.size)
+                break
+            }
+            if (mPlayer.playState != PLAYSTATE_PLAYING) {
+                mPlayer.play()
+            }
+//            mPlayer.write(it, 0, it.size)
+        }
+    }
+
     @Synchronized
-    fun feed(message: CarLifeMessage) {
+    fun feed(message: CarLifeMessage, encoded: Boolean = false) {
+
         if (message.payloadSize == 0) {
             return
         }
 
-        if (messageDelayQueue.isEmpty() && data.avaliable() >= message.payloadSize) {
+        if (encoded) {
+            if (!aacAudioDecoder.isAlive) {
+                try {
+                    aacAudioDecoder.start()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+            aacAudioDecoder.feedFrame(message)
+        } else if (messageDelayQueue.isEmpty() && data.avaliable() >= message.payloadSize) {
             data.write(message.body, message.commandSize, message.payloadSize)
-        }
-        else {
+        } else {
             // 增加引用，防止被回收，对于TTS才有可能进入到这里，因为手机端发数据根本没有做帧延迟，一股脑丢过来了
+            // 编码过的message 直接放入messageDelayQueue
             message.acquire()
             messageDelayQueue.offer(message)
         }
@@ -60,6 +115,7 @@ class CarLifeStreamSource(private val context: CarLifeContext,
 
     @Synchronized
     private fun feedDelayed() {
+        Logger.d(Constants.TAG, "feedDelayed start")
         while (true) {
             val message = messageDelayQueue.peek()
             if (message == null || data.avaliable() < message.payloadSize) {
@@ -70,6 +126,7 @@ class CarLifeStreamSource(private val context: CarLifeContext,
             messageDelayQueue.poll()
             message.recycle()
         }
+
     }
 
     fun end() {
@@ -93,9 +150,11 @@ class CarLifeStreamSource(private val context: CarLifeContext,
     override fun close() {
         if (!isClosed) {
             isClosed = true
+            aacAudioDecoder.release()
             // 必须要释放这些消息
             messageDelayQueue.forEach { it.recycle() }
             messageDelayQueue.clear()
+
         }
     }
 

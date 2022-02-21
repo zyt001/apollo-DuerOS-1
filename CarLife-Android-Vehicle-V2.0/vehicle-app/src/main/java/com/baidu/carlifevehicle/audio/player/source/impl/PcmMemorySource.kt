@@ -2,7 +2,7 @@ package com.baidu.carlifevehicle.audio.player.source.impl
 
 import android.content.res.AssetFileDescriptor
 import android.media.AudioManager
-import com.baidu.carlifevehicle.audio.AudioFocusManager
+import com.baidu.carlife.sdk.internal.audio.AudioFocusManager
 import com.baidu.carlifevehicle.audio.player.source.AudioParams
 import com.baidu.carlifevehicle.audio.player.source.AudioSource
 import com.baidu.carlifevehicle.audio.player.source.ResizableArray

@@ -5,15 +5,15 @@ import com.baidu.carlife.protobuf.CarlifeTTSInitProto
 import com.baidu.carlife.sdk.CarLifeContext
 import com.baidu.carlife.sdk.CarLifeModule
 import com.baidu.carlife.sdk.Constants
+import com.baidu.carlife.sdk.Constants.NAVI_STATUS_START
 import com.baidu.carlife.sdk.internal.CarLifeContextImpl
-import com.baidu.carlifevehicle.audio.player.AudioPlayer
-import com.baidu.carlifevehicle.audio.player.source.AudioSource
+import com.baidu.carlife.sdk.internal.audio.AudioFocusManager
 import com.baidu.carlife.sdk.internal.protocol.CarLifeMessage
 import com.baidu.carlife.sdk.internal.protocol.ServiceTypes
-import com.baidu.carlifevehicle.audio.CarLifeStreamSource
 import com.baidu.carlife.sdk.util.Logger
-import com.baidu.carlifevehicle.CarlifeActivity
-import com.baidu.carlifevehicle.audio.AudioFocusManager
+import com.baidu.carlifevehicle.audio.CarLifeStreamSource
+import com.baidu.carlifevehicle.audio.player.AudioPlayer
+import com.baidu.carlifevehicle.audio.player.source.AudioSource
 
 class NavModule(private val context: CarLifeContext)
     : CarLifeModule(),
@@ -29,8 +29,14 @@ class NavModule(private val context: CarLifeContext)
         // 只处理导航音频通道的消息
         if (message.channel == Constants.MSG_CHANNEL_AUDIO_TTS) {
             when (message.serviceType) {
-                ServiceTypes.MSG_NAV_TTS_INIT -> handleNavTtsInit(message)
-                ServiceTypes.MSG_NAV_TTS_END -> end()
+                ServiceTypes.MSG_NAV_TTS_INIT -> {
+                    handleNavTtsInit(message)
+                    state = NAVI_STATUS_START
+                }
+                ServiceTypes.MSG_NAV_TTS_END -> {
+                    end()
+                    state = Constants.NAVI_STATUS_IDLE
+                }
                 ServiceTypes.MSG_NAV_TTS_DATA -> source?.feed(message)
             }
         }

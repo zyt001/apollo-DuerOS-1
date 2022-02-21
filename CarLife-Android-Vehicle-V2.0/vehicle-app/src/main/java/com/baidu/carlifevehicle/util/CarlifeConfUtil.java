@@ -519,11 +519,6 @@ public class CarlifeConfUtil {
                 Logger.d(TAG, "VALUE_INT_WIRLESS_FREQUENCY = " + valueIntWirlessFrequency);
             }
 
-            if (propertyMap.containsKey(Configs.CONFIG_USE_BT_AUDIO)) {
-                valueBoolUseBtAudio = getBooleanFromMap(Configs.CONFIG_USE_BT_AUDIO);
-                Logger.d(TAG, "VALUE_BOOL_USE_BT_AUDIO = " + valueBoolUseBtAudio);
-            }
-
             if (propertyMap.containsKey(Configs.CONFIG_WIFI_DIRECT_NAME)) {
                 valueStringWifiDirectName = getStringFromMap(Configs.CONFIG_WIFI_DIRECT_NAME);
                 Logger.d(TAG, "VALUE_STRING_USE_BT_AUDIO = " + valueStringWifiDirectName);
@@ -810,8 +805,6 @@ public class CarlifeConfUtil {
             return valueBoolAudioFocusRequired;
         } else if (key.equals(KEY_CONTENT_ENCRYPTION)) {
             return valueContentEncryption;
-        } else if (key.equals(Configs.CONFIG_USE_BT_AUDIO)) {
-            return valueBoolUseBtAudio;
         } else if (key.equals(Configs.CONFIG_SAVE_AUDIO_FILE)) {
             return valueBoolSaveAudioFile;
         }

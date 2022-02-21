@@ -543,10 +543,6 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
             Configs.CONFIG_SAVE_AUDIO_FILE,
             CarlifeConfUtil.getInstance().getBooleanProperty(Configs.CONFIG_SAVE_AUDIO_FILE)
         )
-        CarLife.receiver().setConfig(
-            Configs.CONFIG_USE_BT_AUDIO,
-            CarlifeConfUtil.getInstance().getBooleanProperty(Configs.CONFIG_USE_BT_AUDIO)
-        )
 
         // 根据渠道号构建static info 信息
         CarLife.receiver().initStatisticsInfo(CommonParams.vehicleChannel, "12345678")

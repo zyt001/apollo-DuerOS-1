@@ -1,6 +1,7 @@
 package com.baidu.carlifevehicle.audio.player
 
 import android.media.AudioAttributes
+import android.media.AudioAttributes.*
 import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.AudioTrack
@@ -11,6 +12,8 @@ import com.baidu.carlife.sdk.*
 import com.baidu.carlife.sdk.Configs.CONFIG_SAVE_AUDIO_FILE
 import com.baidu.carlife.sdk.Constants.MSG_CHANNEL_AUDIO
 import com.baidu.carlife.sdk.Constants.MSG_CHANNEL_AUDIO_TTS
+import com.baidu.carlife.sdk.Constants.MSG_CHANNEL_AUDIO_VR
+import com.baidu.carlife.sdk.internal.audio.AudioFocusManager
 import com.baidu.carlifevehicle.audio.player.source.AudioParams
 import com.baidu.carlifevehicle.audio.player.source.AudioSource
 import com.baidu.carlifevehicle.audio.player.source.ResizableArray
@@ -18,7 +21,6 @@ import com.baidu.carlife.sdk.internal.protocol.CarLifeMessage
 import com.baidu.carlife.sdk.internal.protocol.ServiceTypes
 import com.baidu.carlife.sdk.util.Logger
 import com.baidu.carlife.sdk.util.formatISO8601
-import com.baidu.carlifevehicle.audio.AudioFocusManager
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
@@ -334,16 +336,14 @@ class AudioPlayTask(
             if (isRemotePlay()) {
                 sendMediaInit(params)
                 sendMediaData(buffer.array, 0, readSize)
-            }
-            else {
+            } else {
                 audioTrack = createAudioTrack(params, AudioTrack.MODE_STATIC)
                 audioTrack?.write(buffer.array, 0, buffer.size)
                 audioTrack?.play()
             }
             Thread.sleep(params.duration)
             callbacks.onFinish(source, true)
-        }
-        finally {
+        } finally {
             releaseAudioTrack()
         }
     }
@@ -408,7 +408,8 @@ class AudioPlayTask(
                         sendMediaData(buffer.array, 0, readSize)
                     } else {
                         if (audioTrack == null) {
-                            audioTrack = createAudioTrack(params, AudioTrack.MODE_STREAM).apply { play() }
+                            audioTrack =
+                                createAudioTrack(params, AudioTrack.MODE_STREAM).apply { play() }
                         }
                         audioTrack?.write(buffer.array, 0, readSize)
                     }
@@ -490,7 +491,11 @@ class AudioPlayTask(
         val bufferSize =
             if (mode == AudioTrack.MODE_STATIC)
                 params.totalBytes
-            else AudioTrack.getMinBufferSize(params.sampleRate, params.channelConfig, params.audioFormat)
+            else AudioTrack.getMinBufferSize(
+                params.sampleRate,
+                params.channelConfig,
+                params.audioFormat
+            )
 
         return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             AudioTrack(
@@ -505,7 +510,7 @@ class AudioPlayTask(
             AudioTrack.Builder()
                 .setAudioAttributes(
                     AudioAttributes.Builder()
-                        .setUsage(AudioAttributes.USAGE_MEDIA)
+                        .setUsage(getUsage())
                         .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                         .build()
                 )
@@ -520,5 +525,11 @@ class AudioPlayTask(
                 .setBufferSizeInBytes(bufferSize)
                 .build()
         }
+    }
+
+    private fun getUsage() = when (channel) {
+        MSG_CHANNEL_AUDIO_VR, MSG_CHANNEL_AUDIO -> USAGE_MEDIA
+        MSG_CHANNEL_AUDIO_TTS -> USAGE_ASSISTANCE_NAVIGATION_GUIDANCE
+        else -> USAGE_MEDIA
     }
 }

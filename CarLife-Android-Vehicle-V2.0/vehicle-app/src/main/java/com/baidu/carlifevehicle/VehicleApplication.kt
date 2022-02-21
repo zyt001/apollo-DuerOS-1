@@ -66,7 +66,9 @@ class VehicleApplication : Application() {
         val features = mapOf(
             FEATURE_CONFIG_USB_MTU to 16 * 1024,
             FEATURE_CONFIG_I_FRAME_INTERVAL to 300,
-            FEATURE_CONFIG_CONNECT_TYPE to type
+            FEATURE_CONFIG_CONNECT_TYPE to type,
+            FEATURE_CONFIG_AAC_SUPPORT to 1,
+            FEATURE_CONFIG_AUDIO_TRANSMISSION_MODE to 0,
         )
 
         val configs = mapOf(
@@ -128,7 +130,7 @@ class VehicleApplication : Application() {
                     val usbConnection = usbManager.openDevice(device)
                     usbConnection.releaseInterface(device.getInterface(0))
                     val resetDevice = UsbDeviceConnection::class.java.getMethod("resetDevice")
-                    val result = resetDevice.invoke(usbConnection) //调用借钱方法，得到返回值
+                    val result = resetDevice.invoke(usbConnection) // 调用代理方法，得到返回值
                     Log.e(TAG, "USB Device resetDevice result: $result")
                 } catch (e: Exception) {
                     e.printStackTrace()

@@ -7,6 +7,7 @@ import com.baidu.carlife.sdk.CarLifeModule
 import com.baidu.carlife.sdk.Configs
 import com.baidu.carlife.sdk.Constants
 import com.baidu.carlife.sdk.internal.CarLifeContextImpl
+import com.baidu.carlife.sdk.internal.audio.AudioFocusManager
 import com.baidu.carlifevehicle.audio.player.AudioPlayer
 import com.baidu.carlifevehicle.audio.player.source.AudioParams
 import com.baidu.carlifevehicle.audio.player.source.AudioSource
@@ -15,7 +16,6 @@ import com.baidu.carlife.sdk.internal.protocol.CarLifeMessage
 import com.baidu.carlife.sdk.internal.protocol.ServiceTypes
 import com.baidu.carlifevehicle.audio.CarLifeStreamSource
 import com.baidu.carlife.sdk.util.Logger
-import com.baidu.carlifevehicle.audio.AudioFocusManager
 
 class VRModule(
     private val context: CarLifeContext
@@ -60,13 +60,20 @@ class VRModule(
 
     override fun onReceiveMessage(context: CarLifeContext, message: CarLifeMessage): Boolean {
         // 只处理语音通道的消息
-        if (message.channel == Constants.MSG_CHANNEL_AUDIO_VR &&
-            !context.getConfig(Configs.CONFIG_USE_BT_VOICE, false)
-        ) {
+        if (message.channel == Constants.MSG_CHANNEL_AUDIO_VR) {
             when (message.serviceType) {
-                ServiceTypes.MSG_VR_AUDIO_INIT -> handleVrInit(message)
-                ServiceTypes.MSG_VR_AUDIO_STOP -> end()
-                ServiceTypes.MSG_VR_AUDIO_INTERRUPT -> stop()
+                ServiceTypes.MSG_VR_AUDIO_INIT -> {
+                    handleVrInit(message)
+                    state = Constants.VR_STATUS_RUNNING
+                }
+                ServiceTypes.MSG_VR_AUDIO_STOP -> {
+                    end()
+                    state = Constants.VR_STATUS_IDLE
+                }
+                ServiceTypes.MSG_VR_AUDIO_INTERRUPT -> {
+                    stop()
+                    state = Constants.VR_STATUS_IDLE
+                }
                 ServiceTypes.MSG_VR_AUDIO_DATA -> source?.feed(message)
             }
         }

@@ -14,6 +14,15 @@ class CarDataGPSSubscribable(private val context: CarLifeContext): CarLifeSubscr
     override val id: Int = 0
     override var SupportFlag: Boolean = true
 
+    // 根据实际的gps数据填入，不同坐标系经纬度请自行转化。通过Location对象可以获取到对应数据
+    private val latitude = 0
+    private val longitude = 0
+    private val speed = 0
+    private val bearing = 0
+    private val altitude = 0
+    private val satellites = 0
+    private val accuracy = 0
+
     override fun subscribe() {
         //开始给手机端发送GPS信息
         TimerUtils.schedule(subscribeGpsData, 1 * 1000, 2 * 1000)
@@ -24,35 +33,36 @@ class CarDataGPSSubscribable(private val context: CarLifeContext): CarLifeSubscr
         TimerUtils.stop(subscribeGpsData)
     }
 
+    // 定时器发送gps数据可以修改成gps manager变更发送gps数据
     private val subscribeGpsData = Runnable {
-        //开始给手机端发送当前汽车位置信息
+        //开始给手机端发送当前汽车位置信息，默认值为0的为预留参数，可以不修改。
         var message = CarLifeMessage.obtain(Constants.MSG_CHANNEL_CMD, ServiceTypes.MSG_CMD_CAR_GPS)
         message.payload(
             CarlifeCarGpsProto.CarlifeCarGps.newBuilder()
-                .setAntennaState(1)
-                .setSignalQuality(2)
-                .setLatitude(20)
-                .setLongitude(10)
-                .setHeight(1000)
-                .setSpeed(80)
-                .setHeading(90)
-                .setYear(2021)
-                .setMonth(7)
-                .setDay(2)
-                .setHrs(18)
-                .setMin(30)
-                .setSec(1)
-                .setFix(1)
-                .setHdop(2)
-                .setPdop(1)
-                .setVdop(3)
-                .setSatsUsed(2)
-                .setSatsVisible(2)
-                .setHorPosError(4)
-                .setVertPosError(5)
-                .setNorthSpeed(6)
-                .setEastSpeed(7)
-                .setVertSpeed(8)
+                .setLatitude(latitude * 1000000)
+                .setLongitude(longitude * 1000000)
+                .setSpeed(speed * 100)
+                .setPdop(accuracy * 10)
+                .setSatsUsed(satellites)
+                .setSatsVisible(satellites)
+                .setHeading(bearing * 10)
+                .setAntennaState(0)
+                .setSignalQuality(0)
+                .setHeight(0)
+                .setYear(0)
+                .setMonth(0)
+                .setDay(0)
+                .setHrs(0)
+                .setMin(0)
+                .setSec(0)
+                .setFix(0)
+                .setHdop(0)
+                .setVdop(0)
+                .setHorPosError(0)
+                .setVertPosError(0)
+                .setNorthSpeed(0)
+                .setEastSpeed(0)
+                .setVertSpeed(0)
                 .setTimeStamp(System.currentTimeMillis())
                 .build())
         context.postMessage(message)

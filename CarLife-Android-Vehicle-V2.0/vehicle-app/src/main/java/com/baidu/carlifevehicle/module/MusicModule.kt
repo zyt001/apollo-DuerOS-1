@@ -7,15 +7,17 @@ import com.baidu.carlife.sdk.CarLifeContext
 import com.baidu.carlife.sdk.CarLifeModule
 import com.baidu.carlife.sdk.Configs
 import com.baidu.carlife.sdk.Constants
+import com.baidu.carlife.sdk.Constants.MUSIC_STATUS_IDLE
+import com.baidu.carlife.sdk.Constants.MUSIC_STATUS_RUNNING
 import com.baidu.carlife.sdk.internal.CarLifeContextImpl
-import com.baidu.carlifevehicle.audio.player.AudioPlayer
-import com.baidu.carlifevehicle.audio.player.source.AudioSource
-import com.baidu.carlifevehicle.audio.CarLifeStreamSource
-import com.baidu.carlifevehicle.audio.AudioFocusManager
+import com.baidu.carlife.sdk.internal.audio.AudioFocusManager
 import com.baidu.carlife.sdk.internal.protocol.CarLifeMessage
 import com.baidu.carlife.sdk.internal.protocol.ServiceTypes
 import com.baidu.carlife.sdk.receiver.CarLife
 import com.baidu.carlife.sdk.util.Logger
+import com.baidu.carlifevehicle.audio.CarLifeStreamSource
+import com.baidu.carlifevehicle.audio.player.AudioPlayer
+import com.baidu.carlifevehicle.audio.player.source.AudioSource
 
 class MusicModule(private val context: CarLifeContext): CarLifeModule(),
     AudioManager.OnAudioFocusChangeListener,
@@ -50,14 +52,26 @@ class MusicModule(private val context: CarLifeContext): CarLifeModule(),
 
     override fun onReceiveMessage(context: CarLifeContext, message: CarLifeMessage): Boolean {
         // 只处理音乐通道的消息
-        if (message.channel == Constants.MSG_CHANNEL_AUDIO &&
-            !context.getConfig(Configs.CONFIG_USE_BT_VOICE, false)) {
+        if (message.channel == Constants.MSG_CHANNEL_AUDIO) {
             when (message.serviceType) {
-                ServiceTypes.MSG_MEDIA_INIT -> handleMediaInit(message)
-                ServiceTypes.MSG_MEDIA_PAUSE -> player.pause()
-                ServiceTypes.MSG_MEDIA_RESUME_PLAY -> player.resume()
-                ServiceTypes.MSG_MEDIA_STOP -> end()
+                ServiceTypes.MSG_MEDIA_INIT -> {
+                    handleMediaInit(message)
+                    state = MUSIC_STATUS_RUNNING
+                }
+                ServiceTypes.MSG_MEDIA_PAUSE -> {
+                    player.pause()
+                    state = MUSIC_STATUS_IDLE
+                }
+                ServiceTypes.MSG_MEDIA_RESUME_PLAY -> {
+                    player.resume()
+                    state = MUSIC_STATUS_RUNNING
+                }
+                ServiceTypes.MSG_MEDIA_STOP -> {
+                    end()
+                    state = MUSIC_STATUS_IDLE
+                }
                 ServiceTypes.MSG_MEDIA_DATA -> source?.feed(message)
+                ServiceTypes.MSG_MEDIA_DATA_ENCODER -> source?.feed(message, true)
             }
         }
         return false
