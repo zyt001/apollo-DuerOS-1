@@ -59,15 +59,9 @@ class PcmRecorder(private var mContext: CarLifeContext?) : Thread() {
                     RECORD_DATA_PACKAGE_SIZE
                 )
                 if (bufferRead == AudioRecord.ERROR_INVALID_OPERATION) {
-                    // throw new IllegalStateException("read() returned AudioRecord.ERROR_INVALID_OPERATION");
-//                    Logger.e(TAG, "read() returned AudioRecord.ERROR_INVALID_OPERATION")
-                    //  CarlifeUtil.showToastInUIThread("-录音出错，请检查MIC后重试-")
                     isStoped = true
                     break
                 } else if (bufferRead == AudioRecord.ERROR_BAD_VALUE) {
-                    // throw new IllegalStateException("read() returned AudioRecord.ERROR_BAD_VALUE");
-//                    Logger.e(TAG, "read() returned AudioRecord.ERROR_BAD_VALUE")
-                    // CarlifeUtil.showToastInUIThread("-录音出错，请检查MIC后重试-")
                     isStoped = true
                     break
                 }

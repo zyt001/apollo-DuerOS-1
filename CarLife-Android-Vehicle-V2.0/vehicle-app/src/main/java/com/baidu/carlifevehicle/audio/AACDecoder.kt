@@ -206,7 +206,7 @@ class AACDecoder(
             format.setByteBuffer("csd-0", csd)
             mDecoder.configure(format, null, null, 0)
         } catch (e: Exception) {
-            Log.e(Constants.TAG, "AACDecoder createEncoder exception: $e")
+            Logger.e(Constants.TAG, "AACDecoder createEncoder exception: $e")
             mDecoder?.release()
             throw e
         }

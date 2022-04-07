@@ -306,6 +306,11 @@ public class CarlifeConfUtil {
     public CarlifeConfUtil() {
     }
 
+    /**
+     * 从本地读取一些配置文件到缓存中
+     * 本工程的文件是放置在assets中，车厂开始时也可以放置在sdcard中，从sdcard中获取，路径可自定义
+     * @throws InterruptedException
+     */
     public void init() throws InterruptedException {
         readConfCnt++;
         new Thread() {

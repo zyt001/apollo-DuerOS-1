@@ -76,8 +76,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         mSurfaceView = findViewById(R.id.video_surface_view)
 
         mRootView = findViewById(R.id.root_view)
-//
-//        PreferenceUtil.getInstance().init(this@CarlifeActivity)
+
         mCarLifeFragmentManager = CarLifeFragmentManager(this)
         // initialize basefragment, must be called before using it's subclass
         BaseFragment.initBeforeAll(this)
@@ -103,19 +102,10 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
             Logger.d("zwh", "file>>>>>", file.absolutePath)
             ApkInstall.installApk(this@CarlifeActivity, file.path)
         })
-//        requestRecordPermission(Manifest.permission.RECORD_AUDIO)
 
         requestPermission()
 
         ControlTestWindow.getInstance().init(this@CarlifeActivity, mRootView)
-
-        //val surfaceWidth = intent?.getIntExtra(SurfaceRequestCallback.KEY_SURFACE_WIDTH, 0) ?: 0
-        //val surfaceHeight = intent?.getIntExtra(SurfaceRequestCallback.KEY_SURFACE_HEIGHT, 0) ?: 0
-        //if (surfaceWidth != 0 && surfaceHeight != 0) {
-        //    mSurfaceView.post {
-        //        mSurfaceView.onVideoSizeChanged(surfaceWidth, surfaceHeight)
-        //    }
-        //}
 
         mMainActivityHandler = MsgMainActivityHandler()
         MsgHandlerCenter.registerMessageHandler(mMainActivityHandler)
@@ -245,24 +235,6 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         }
         return false
     }
-//    private val debouncer = Debouncer(1000)
-//    private var clickCount = 0
-//    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
-//
-//        if (ev.action == MotionEvent.ACTION_DOWN) {
-//
-//            if (!debouncer.filter()) {
-//                if (++clickCount == 4) {
-//                    startActivity(Intent(this, SettingsActivity::class.java))
-//                    clickCount = 0
-//                }
-//            } else {
-//                clickCount = 0
-//            }
-//        }
-//
-//        return super.dispatchTouchEvent(ev)
-//    }
 
     private var numClickCount = 0
 
@@ -271,7 +243,6 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
             R.id.bt_hard -> {
                 if (++numClickCount == 3) {
                     ControlTestWindow.getInstance().displayWindow()
-//                    startActivity(Intent(this, ControlActivity::class.java))
                     numClickCount = 0
                 }
             }

@@ -239,10 +239,6 @@ class AudioPlayTask(
             if (focusState != FOCUS_DELAYED) {
                 audioTrack?.pause()
                 semaphore.acquire()
-                if (isRemotePlay()) {
-                    sendMediaPause()
-                    needSendMediaResume = true
-                }
             }
             // 恢复音量
             setVolume(1.0f)
@@ -257,9 +253,6 @@ class AudioPlayTask(
             if (focusState != FOCUS_DELAYED) {
                 audioTrack?.play()
                 semaphore.release()
-                if (isRemotePlay() && needSendMediaResume) {
-                    sendMediaResume()
-                }
                 needSendMediaResume = false
             }
             // 恢复音量
@@ -287,14 +280,6 @@ class AudioPlayTask(
         }
     }
 
-    /**
-     * 判断当前是否需要远程播放
-     * @return 必须是sender并且已连接
-     */
-    private fun isRemotePlay(): Boolean {
-        return !isReceiver && context.isConnected() && callbacks.isRemotePlay()
-    }
-
     override fun run() {
         if (isStopped.get()) {
             // 说明被执行之前就被stop了
@@ -317,15 +302,12 @@ class AudioPlayTask(
             if (state == AudioPlayer.STATE_PAUSED) {
                 Log.i(Constants.TAG, "AudioPlayTask paused by player")
             } else {
-                Log.e(Constants.TAG, "AudioPlayTask play exception: " + Log.getStackTraceString(e))
+                Logger.e(Constants.TAG, "AudioPlayTask play exception: " + Log.getStackTraceString(e))
                 callbacks.onError(source, AudioPlayer.ERROR_EXCEPTION, e.toString())
             }
 
         }
 
-        if (isRemotePlay()) {
-            sendMediaStop()
-        }
         stop()
     }
 
@@ -333,14 +315,10 @@ class AudioPlayTask(
         val buffer = ResizableArray(params.totalBytes)
         try {
             val readSize = source.drainTo(buffer, 3000L)
-            if (isRemotePlay()) {
-                sendMediaInit(params)
-                sendMediaData(buffer.array, 0, readSize)
-            } else {
-                audioTrack = createAudioTrack(params, AudioTrack.MODE_STATIC)
-                audioTrack?.write(buffer.array, 0, buffer.size)
-                audioTrack?.play()
-            }
+            audioTrack = createAudioTrack(params, AudioTrack.MODE_STATIC)
+            audioTrack?.write(buffer.array, 0, buffer.size)
+            audioTrack?.play()
+
             Thread.sleep(params.duration)
             callbacks.onFinish(source, true)
         } finally {
@@ -361,14 +339,6 @@ class AudioPlayTask(
             while (!isStopped.get()) {
                 semaphore.acquire()
                 semaphore.release()
-
-                val lastRemotePlay = remotePlay.getAndSet(isRemotePlay())
-                if (remotePlay.get()) {
-                    if (!lastRemotePlay) {
-                        // destroy audio track
-                        releaseAudioTrack()
-                    }
-                }
 
                 buffer.clear()
                 val readSize = source.readFrame(buffer, 0, 3000)

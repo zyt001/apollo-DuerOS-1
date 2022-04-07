@@ -1,11 +1,9 @@
 package com.baidu.carlifevehicle.audio.player
 
 import com.baidu.carlife.sdk.CarLifeContext
-import com.baidu.carlife.sdk.Configs
 import com.baidu.carlife.sdk.Constants
-import com.baidu.carlifevehicle.audio.player.source.AudioSource
-import com.baidu.carlife.sdk.sender.CarLife
 import com.baidu.carlife.sdk.util.Logger
+import com.baidu.carlifevehicle.audio.player.source.AudioSource
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -39,9 +37,6 @@ class AudioPlayer(
 
         fun onError(source: AudioSource, errorCode: Int, errorMessage: String) {}
 
-        fun isRemotePlay(): Boolean {
-            return true
-        }
     }
 
     inner class CallbacksWrapper(val callbacks: Callbacks) :
@@ -84,11 +79,6 @@ class AudioPlayer(
             }
         }
 
-        override fun isRemotePlay(): Boolean {
-            var isRemotePlay = CarLife.sender().getFeature(Configs.FEATURE_CONFIG_AUDIO_TRANSMISSION_MODE, 0)
-            Logger.d(Constants.TAG, "AudioPlayer isRemotePlay: $isRemotePlay")
-            return isRemotePlay == 0
-        }
     }
 
     private val executor = Executors.newSingleThreadExecutor {

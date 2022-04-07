@@ -235,55 +235,6 @@ public class CarlifeUtil {
 
     }
 
-    /**
-     * send video codec message to service
-     *
-     * @param width     width
-     * @param height    height
-     * @param frameRate frame rate, if 0, means no limit to frame rate
-     */
-    public static void sendVideoCodecMsg(int width, int height, int frameRate) {
-//        CarlifeCmdMessage command = new CarlifeCmdMessage(true);
-//        command.setServiceType(CommonParams.MSG_CMD_VIDEO_ENCODER_INIT);
-//        CarlifeVideoEncoderInfo.Builder builder = CarlifeVideoEncoderInfo.newBuilder();
-//        builder.setWidth(width);
-//        builder.setHeight(height);
-//        builder.setFrameRate(frameRate);
-//        CarlifeVideoEncoderInfo videoInfo = builder.build();
-//        command.setData(videoInfo.toByteArray());
-//        command.setLength(videoInfo.getSerializedSize());
-//        Message msgTmp =
-//                Message.obtain(null, command.getServiceType(), CommonParams.MSG_CMD_PROTOCOL_VERSION, 0, command);
-//        ConnectClient.getInstance().sendMsgToService(msgTmp);
-    }
-
-    public static void sendVideoTransMsg() {
-//        CarlifeCmdMessage command = new CarlifeCmdMessage(true);
-//        command.setServiceType(CommonParams.MSG_CMD_VIDEO_ENCODER_START);
-//        Message msgTmp =
-//                Message.obtain(null, command.getServiceType(), CommonParams.MSG_CMD_PROTOCOL_VERSION, 0, command);
-//        ConnectClient.getInstance().sendMsgToService(msgTmp);
-    }
-
-    public static void sendVideoPauseMsg() {
-//        CarlifeCmdMessage command = new CarlifeCmdMessage(true);
-//        command.setServiceType(CommonParams.MSG_CMD_VIDEO_ENCODER_PAUSE);
-//        Message msgTmp =
-//                Message.obtain(null, command.getServiceType(), CommonParams.MSG_CMD_PROTOCOL_VERSION, 0, command);
-//        ConnectClient.getInstance().sendMsgToService(msgTmp);
-    }
-
-    public static void sendLaunchMode(int mLaunchMode) {
-//        if (mLaunchMode >= CommonParams.MSG_CMD_LAUNCH_MODE_NORMAL
-//                && mLaunchMode <= CommonParams.MSG_CMD_LAUNCH_MODE_MUSIC) {
-//            CarlifeCmdMessage command = new CarlifeCmdMessage(true);
-//            command.setServiceType(mLaunchMode);
-//            Message msgTmp =
-//                    Message.obtain(null, command.getServiceType(), CommonParams.MSG_CMD_PROTOCOL_VERSION, 0, command);
-//            ConnectClient.getInstance().sendMsgToService(msgTmp);
-//        }
-    }
-
     public static Looper getLooper(HandlerThread handlerThread) {
         Looper looper = handlerThread.getLooper();
         while (looper == null) {
@@ -294,53 +245,6 @@ public class CarlifeUtil {
             }
         }
         return looper;
-    }
-
-    public static void sendGotoCarlife() {
-//        CarlifeCmdMessage command = new CarlifeCmdMessage(true);
-//        command.setServiceType(CommonParams.MSG_CMD_GO_TO_FOREGROUND);
-//        Message msgTmp =
-//                Message.obtain(null, command.getServiceType(), CommonParams.MSG_CMD_PROTOCOL_VERSION, 0, command);
-//        ConnectClient.getInstance().sendMsgToService(msgTmp);
-    }
-
-    public static void sendStatisticsInfo(int connectTime) {
-//        CarlifeCmdMessage command = new CarlifeCmdMessage(true);
-//        command.setServiceType(CommonParams.MSG_CMD_STATISTIC_INFO);
-//        CarlifeStatisticsInfo.Builder builder = CarlifeStatisticsInfo.newBuilder();
-//        builder.setCuid(CarlifeUtil.getInstance().getCuid());
-//        builder.setVersionName(CarlifeUtil.getInstance().getVersionName());
-//        builder.setVersionCode(CarlifeUtil.getInstance().getVersionCode());
-//        builder.setChannel(CarlifeUtil.getInstance().getChannel());
-//        builder.setConnectCount(PreferenceUtil.getInstance().getInt(CommonParams.CARLIFE_CONNECT_COUNT, 1));
-//        builder.setConnectSuccessCount(1);
-//        builder.setConnectTime(connect_time);
-//        String crashLog = CrashHandler.getInstance().readCrashInfoFromDir();
-//        if (crashLog != null) {
-//            Logger.d(TAG, crashLog);
-//            builder.setCrashLog(crashLog);
-//        }
-//        CarlifeStatisticsInfo statisInfo = builder.build();
-//        command.setData(statisInfo.toByteArray());
-//        command.setLength(statisInfo.getSerializedSize());
-//        Message msgTmp =
-//                Message.obtain(null, command.getServiceType(), CommonParams.MSG_CMD_PROTOCOL_VERSION, 0, command);
-//        ConnectClient.getInstance().sendMsgToService(msgTmp);
-//        PreferenceUtil.getInstance().putInt(CommonParams.CARLIFE_CONNECT_COUNT, 0);
-    }
-
-    public static void sendModuleControlToMd(int moduleId, int statusId) {
-//        CarlifeModuleStatus.Builder moduleStatusBuilder = CarlifeModuleStatus.newBuilder();
-//        moduleStatusBuilder.setModuleID(moduleId);
-//        moduleStatusBuilder.setStatusID(statusId);
-//        CarlifeModuleStatus carlifeModuleStatus = moduleStatusBuilder.build();
-//        CarlifeCmdMessage command = new CarlifeCmdMessage(true);
-//        command.setServiceType(CommonParams.MSG_CMD_MODULE_CONTROL);
-//        command.setData(carlifeModuleStatus.toByteArray());
-//        command.setLength(carlifeModuleStatus.getSerializedSize());
-//        Message msgTmp =
-//                Message.obtain(null, command.getServiceType(), CommonParams.MSG_CMD_PROTOCOL_VERSION, 0, command);
-//        ConnectClient.getInstance().sendMsgToService(msgTmp);
     }
 
     public static void dumpCarlifeFile() {

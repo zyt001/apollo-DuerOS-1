@@ -1,13 +1,11 @@
 package com.baidu.carlifevehicle
 
 import com.baidu.carlife.protobuf.CarlifeCarGpsProto
-import com.baidu.carlife.protobuf.CarlifeNaviAssitantGuideInfoProto
 import com.baidu.carlife.sdk.CarLifeContext
 import com.baidu.carlife.sdk.CarLifeSubscribable
 import com.baidu.carlife.sdk.Constants
 import com.baidu.carlife.sdk.internal.protocol.CarLifeMessage
 import com.baidu.carlife.sdk.internal.protocol.ServiceTypes
-import com.baidu.carlife.sdk.sender.CarLife
 import com.baidu.carlife.sdk.util.TimerUtils
 
 class CarDataGPSSubscribable(private val context: CarLifeContext): CarLifeSubscribable {

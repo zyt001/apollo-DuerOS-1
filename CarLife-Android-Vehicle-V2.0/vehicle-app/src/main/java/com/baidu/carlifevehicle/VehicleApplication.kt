@@ -16,7 +16,7 @@ import com.baidu.carlife.sdk.Configs.*
 import com.baidu.carlife.sdk.Constants
 import com.baidu.carlife.sdk.Constants.TAG
 import com.baidu.carlife.sdk.receiver.CarLife
-import com.baidu.carlife.sdk.sender.display.DisplaySpec
+import com.baidu.carlife.sdk.internal.DisplaySpec
 import com.baidu.carlifevehicle.audio.recorder.VoiceManager
 import com.baidu.carlifevehicle.audio.recorder.VoiceMessageHandler
 import com.baidu.carlifevehicle.protocol.ControllerHandler
@@ -51,6 +51,11 @@ class VehicleApplication : Application() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun initReceiver() {
+
+        /**
+         * 获取屏幕的宽高，默认采用16：9的分辨率
+         * 如车厂为宽屏车机，车厂可自定义修改为8：3
+         */
         val screenWidth = resources.displayMetrics.widthPixels
         val screenHeight = resources.displayMetrics.heightPixels
         val displaySpec = DisplaySpec(
@@ -60,17 +65,27 @@ class VehicleApplication : Application() {
             30
         )
 
+        /**
+         * 连接方式默认AOA连接
+         */
         val type = PreferenceUtil.getInstance()
             .getInt(CONNECT_TYPE_SHARED_PREFERENCES, CarLifeContext.CONNECTION_TYPE_AOA)
 
+        /**
+         * 车机端的支持的Feature，会通过协议传给手机端
+         */
         val features = mapOf(
             FEATURE_CONFIG_USB_MTU to 16 * 1024,
             FEATURE_CONFIG_I_FRAME_INTERVAL to 300,
             FEATURE_CONFIG_CONNECT_TYPE to type,
             FEATURE_CONFIG_AAC_SUPPORT to 1,
-            FEATURE_CONFIG_AUDIO_TRANSMISSION_MODE to 0,
+            FEATURE_CONFIG_AUDIO_TRANSMISSION_MODE to 1,
+            FEATURE_CONFIG_MUSIC_HUD to 1
         )
 
+        /**
+         * 车机端本地的一些配置
+         */
         val configs = mapOf(
             CONFIG_LOG_LEVEL to Log.DEBUG,
             CONFIG_USE_ASYNC_USB_MODE to false,
@@ -81,6 +96,10 @@ class VehicleApplication : Application() {
             Constants.TAG,
             "VehicleApplication initReceiver $screenWidth, $screenHeight $displaySpec"
         )
+
+        /**
+         * 初始化CarLifeReceiver,需要在主线程调用
+         */
         CarLife.init(
             this,
             "20029999",
@@ -90,20 +109,32 @@ class VehicleApplication : Application() {
             configs
         )
 
+        // 车机录音初始化
         VoiceManager.init(CarLife.receiver())
+
+        // 设置车机分辨率，这里会传递给手机端，手机端会根据此分辨率传递视频帧到车机
         CarLife.receiver().setDisplaySpec(displaySpec)
+
+        // 注册接受车机收音消息逻辑
         CarLife.receiver().registerTransportListener(VoiceMessageHandler())
+
+        // 注册other消息处理
         CarLife.receiver().registerTransportListener(ControllerHandler())
 
 
-//        CarLife.receiver().addSubscriber(AssistantGuideSubscriber(CarLife.receiver()))
-//        CarLife.receiver().addSubscriber(TurnByTurnSubscriber(CarLife.receiver()))
-//        CarLife.receiver().addSubscribable(CarDataGPSSubscribable(CarLife.receiver()))
-//        CarLife.receiver().addSubscribable(CarDataVelocitySubscribable(CarLife.receiver()))
-//        CarLife.receiver().addSubscribable(CarDataGyroscopeSubscribable(CarLife.receiver()))
-//        CarLife.receiver().addSubscribable(CarDataAccelerationSubscribable(CarLife.receiver()))
-//        CarLife.receiver().addSubscribable(CarDataGearSubscribable(CarLife.receiver()))
-//        CarLife.receiver().addSubscribable(CarDataOilSubscribable(CarLife.receiver()))
+
+        /**
+         * 下面这段代码用于示范消息订阅相关实例
+         * 比如车机订阅手机的GPS信息等
+        CarLife.receiver().addSubscriber(AssistantGuideSubscriber(CarLife.receiver()))
+        CarLife.receiver().addSubscriber(TurnByTurnSubscriber(CarLife.receiver()))
+        CarLife.receiver().addSubscribable(CarDataGPSSubscribable(CarLife.receiver()))
+        CarLife.receiver().addSubscribable(CarDataVelocitySubscribable(CarLife.receiver()))
+        CarLife.receiver().addSubscribable(CarDataGyroscopeSubscribable(CarLife.receiver()))
+        CarLife.receiver().addSubscribable(CarDataAccelerationSubscribable(CarLife.receiver()))
+        CarLife.receiver().addSubscribable(CarDataGearSubscribable(CarLife.receiver()))
+        CarLife.receiver().addSubscribable(CarDataOilSubscribable(CarLife.receiver()))
+         */
     }
 
     val vehicleConnection: ServiceConnection = object : ServiceConnection {
@@ -116,11 +147,19 @@ class VehicleApplication : Application() {
         }
     }
 
+    /**
+     * CarLife起来时，拉起VehicleService服务，用于CarLife后台连接成功时可以自动被拉到前台显示，
+     * 车厂可根据需求选择是否需要此服务.
+     */
     fun bindVehicleService() {
         val intent = Intent(this, VehicleService::class.java)
         bindService(intent, vehicleConnection, Context.BIND_AUTO_CREATE)
     }
 
+    /**
+     * 1、重置一下USB设备端口，防止又脏数据；
+     * 2、如车厂有自己的重置USB方式，此方法可以不调用。
+     */
     private fun resetUsbDeviceIfNecessary() {
 
         val usbManager = applicationContext.getSystemService(Context.USB_SERVICE) as UsbManager
@@ -130,7 +169,7 @@ class VehicleApplication : Application() {
                     val usbConnection = usbManager.openDevice(device)
                     usbConnection.releaseInterface(device.getInterface(0))
                     val resetDevice = UsbDeviceConnection::class.java.getMethod("resetDevice")
-                    val result = resetDevice.invoke(usbConnection) // 调用代理方法，得到返回值
+                    val result = resetDevice.invoke(usbConnection) // 调用反射方法，得到返回值
                     Log.e(TAG, "USB Device resetDevice result: $result")
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -139,6 +178,11 @@ class VehicleApplication : Application() {
         }
     }
 
+    /**
+     * 判断当前设备是否处于AOA配件模式；
+     * 此判断用于重置usb时使用，如车厂有其他方式重置，可忽略此方法.
+     * 详情可参考：https://source.android.com/devices/accessories/aoa
+     */
     private fun isAccessory(usbDevice: UsbDevice): Boolean {
         return usbDevice.vendorId == VID_ACCESSORY
                 && usbDevice.productId >= PID_ACCESSORY_ONLY

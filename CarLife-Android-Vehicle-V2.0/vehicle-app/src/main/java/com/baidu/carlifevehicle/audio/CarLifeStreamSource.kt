@@ -83,7 +83,6 @@ class CarLifeStreamSource(
             if (mPlayer.playState != PLAYSTATE_PLAYING) {
                 mPlayer.play()
             }
-//            mPlayer.write(it, 0, it.size)
         }
     }
 

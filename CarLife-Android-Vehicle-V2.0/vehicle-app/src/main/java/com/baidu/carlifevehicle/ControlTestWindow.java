@@ -70,8 +70,6 @@ public class ControlTestWindow implements OnClickListener {
     private PopupWindow mFullWindow = null;
     private View mFullWindowLayout = null;
     private EditText mVideoEt = null;
-    //    private Button mVideoCommitBtn = null;
-//    private Button mVideoSaveBtn = null;
     private ImageButton mExitBtn = null;
     private Button mHomeBtn = null;
     private Button mPhoneBtn = null;
@@ -129,12 +127,6 @@ public class ControlTestWindow implements OnClickListener {
 
             mExitBtn = (ImageButton) mFullWindowLayout.findViewById(R.id.exit_img_btn);
             mExitBtn.setOnClickListener(this);
-
-//            mVideoEt = (EditText) mFullWindowLayout.findViewById(R.id.video_test_et);
-//            mVideoCommitBtn = (Button) mFullWindowLayout.findViewById(R.id.video_test_btn1);
-//            mVideoSaveBtn = (Button) mFullWindowLayout.findViewById(R.id.video_test_btn2);
-//            mVideoCommitBtn.setOnClickListener(this);
-//            mVideoSaveBtn.setOnClickListener(this);
 
             mHomeBtn = (Button) mFullWindowLayout.findViewById(R.id.btn_home);
             mPhoneBtn = (Button) mFullWindowLayout.findViewById(R.id.btn_phone);
@@ -488,21 +480,6 @@ public class ControlTestWindow implements OnClickListener {
     private void showToast(String msg) {
         Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
     }
-
-//    private void sendCommandToMd(int moduleId, int statusId) {
-//        CarlifeModuleStatus.Builder moduleStatusBuilder = CarlifeModuleStatus.newBuilder();
-//        moduleStatusBuilder.setModuleID(moduleId);
-//        // start
-//        moduleStatusBuilder.setStatusID(statusId);
-//        CarlifeModuleStatus carlifeModuleStatus = moduleStatusBuilder.build();
-//        CarlifeCmdMessage command = new CarlifeCmdMessage(true);
-//        command.setServiceType(CommonParams.MSG_CMD_MODULE_CONTROL);
-//        command.setData(carlifeModuleStatus.toByteArray());
-//        command.setLength(carlifeModuleStatus.getSerializedSize`());
-//        Message msgTmp =
-//                Message.obtain(null, command.getServiceType(), CommonParams.MSG_CMD_PROTOCOL_VERSION, 0, command);
-//        ConnectClient.getInstance().sendMsgToService(msgTmp);
-//    }
 
     private void sendCarVelocityToMD(int carSpeed) {
 

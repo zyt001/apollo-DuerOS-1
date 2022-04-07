@@ -8,7 +8,7 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.baidu.carlife.sdk.receiver.CarLife
-import com.baidu.carlife.sdk.sender.display.DisplaySpec
+import com.baidu.carlife.sdk.internal.DisplaySpec
 
 class SettingsActivity: AppCompatActivity() {
 

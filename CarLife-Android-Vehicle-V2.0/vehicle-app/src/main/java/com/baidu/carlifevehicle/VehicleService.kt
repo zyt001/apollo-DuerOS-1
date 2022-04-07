@@ -27,9 +27,13 @@ class VehicleService : Service(), TransportListener {
         super.onConnectionEstablished(context)
 
         Logger.d("VideoRender", "onConnectionEstablished start CarlifeActivity")
+        // 这里先注释掉，如车厂有需求，可以放开
         // showFront();
     }
 
+    /**
+     * 此方法用于当CarLife在后台时，此时用户连接成功，则需要把CarLife拉到前台显示出来
+     */
     fun showFront() {
         val mAm = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         val taskList = mAm.getRunningTasks(100)

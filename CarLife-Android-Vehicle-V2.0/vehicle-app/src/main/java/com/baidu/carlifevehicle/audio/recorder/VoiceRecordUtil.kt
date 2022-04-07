@@ -42,7 +42,6 @@ object VoiceRecordUtil {
         } else {
             Logger.d(TAG, "VR audio request focus failed")
         }
-        // mContext?.applicationContext?.sendBroadcast(Intent(BroadcastActionConstant.CARLIFE_RECORD_SERVICE_START))
 
     }
 
@@ -54,7 +53,6 @@ object VoiceRecordUtil {
         mContext?.abandonAudioFocus(
             vrListener
         )
-        // mContext?.applicationContext?.sendBroadcast(Intent(BroadcastActionConstant.CARLIFE_RECORD_SERVICE_STOP))
 
     }
 
