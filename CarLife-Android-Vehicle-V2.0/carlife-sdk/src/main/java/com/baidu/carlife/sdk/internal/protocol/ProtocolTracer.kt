@@ -3,7 +3,6 @@ package com.baidu.carlife.sdk.internal.protocol
 import com.baidu.carlife.sdk.CarLifeContext
 import com.baidu.carlife.sdk.Constants
 import com.baidu.carlife.sdk.Constants.MSG_CHANNEL_VIDEO
-import com.baidu.carlife.sdk.carlifetest.ProtocolAnalyzer
 import com.baidu.carlife.sdk.internal.protocol.ServiceTypes.MSG_CMD_MEDIA_PROGRESS_BAR
 import com.baidu.carlife.sdk.internal.protocol.ServiceTypes.MSG_MEDIA_DATA
 import com.baidu.carlife.sdk.internal.protocol.ServiceTypes.MSG_MEDIA_DATA_ENCODER
@@ -55,11 +54,8 @@ class ProtocolTracer(private val isReceiver: Boolean) : TransportListener {
             }
         }
 
-        if (isReceiver) {
-            monitorTraffic(message)
-        } else {
-            ProtocolAnalyzer.instance?.onReceiveMessage(message)
-        }
+        monitorTraffic(message)
+
         return false
     }
 
@@ -89,10 +85,6 @@ class ProtocolTracer(private val isReceiver: Boolean) : TransportListener {
             )
         }
 
-        if (!isReceiver) {
-            monitorTraffic(message)
-            ProtocolAnalyzer.instance?.onSendMessage(message)
-        }
         return false
     }
 
