@@ -72,6 +72,8 @@ class FrameDecoder(
         if (!isStopped) {
             message.acquire()
 
+            videoOutput?.write(message.body, message.commandSize, message.payloadSize)
+
             messageQueue.offer(message)
             Logger.v(Constants.TAG, "FrameDecoder messageQueue size ${messageQueue.size}")
             if (!isFirstDataFrame) {
