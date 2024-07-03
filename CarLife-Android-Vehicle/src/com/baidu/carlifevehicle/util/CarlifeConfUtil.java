@@ -20,11 +20,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.baidu.carlifevehicle.CarLifeApplication;
 import com.baidu.carlifevehicle.CommonParams;
 import com.baidu.carlifevehicle.connect.CarlifeCmdMessage;
 import com.baidu.carlifevehicle.touch.TouchListenerManager;
@@ -313,7 +315,7 @@ public class CarlifeConfUtil {
 
         try {
             bdcf = new File(CONF_FILE_DIR + "/" + CONF_FILE);
-            reader = new BufferedReader(new FileReader(bdcf));
+            reader = new BufferedReader(new InputStreamReader(CarLifeApplication.getGlobContext().getAssets().open("bdcf")));
             propertyMap = new HashMap<String, String>();
 
             while ((line = reader.readLine()) != null) {

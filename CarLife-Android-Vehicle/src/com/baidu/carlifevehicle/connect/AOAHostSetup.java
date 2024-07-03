@@ -242,7 +242,7 @@ public class AOAHostSetup {
         } catch (Exception ex) {
             LogUtil.e(TAG, "initUsbDevice fail");
             uninitUsbDevice();
-            resetUsb();
+            //resetUsb();
             return false;
         }
 

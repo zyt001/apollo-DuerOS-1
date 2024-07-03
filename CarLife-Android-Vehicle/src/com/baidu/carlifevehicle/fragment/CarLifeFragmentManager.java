@@ -15,15 +15,17 @@
  *****************************************************************************/
 package com.baidu.carlifevehicle.fragment;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import java.util.List;
 
 import com.baidu.carlifevehicle.BaseActivity;
 import com.baidu.carlifevehicle.R;
 import com.baidu.carlifevehicle.util.LogUtil;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+
 
 public class CarLifeFragmentManager {
     private static final String TAG = "CarLifeFragmentManager";

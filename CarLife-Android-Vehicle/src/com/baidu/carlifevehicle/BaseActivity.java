@@ -18,7 +18,8 @@ package com.baidu.carlifevehicle;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+
+import androidx.fragment.app.FragmentActivity;
 
 public class BaseActivity extends FragmentActivity {
 

@@ -84,7 +84,7 @@ public class CarlifeUtil {
             return;
         mContext = context;
 
-        mCuid = CommonParam.getCUID(mContext);
+        mCuid = "123456789";
         LogUtil.e(TAG, "CUID = " + mCuid);
 
         try {

@@ -25,15 +25,16 @@ import com.baidu.carlifevehicle.view.DirectionViewPager;
 
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout;
+
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 public class NewUserGuideFragment extends BaseFragment {
     static NewUserGuideFragment mNewUserGuideFragment = null;
@@ -74,7 +75,7 @@ public class NewUserGuideFragment extends BaseFragment {
 
         mViewPagerAdapter = new ViewPagerAdapter(mViews);
         mUserGuideViewPager.setAdapter(mViewPagerAdapter);
-        mUserGuideViewPager.setOnPageChangeListener(new OnPageChangeListener() {
+        mUserGuideViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageSelected(int arg0) {

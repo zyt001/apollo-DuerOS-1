@@ -197,21 +197,11 @@ public class ConnectManager {
             connectTypeIphoneValue = getIphoneConnectType();
             LogUtil.e(TAG, "ConnectTypeIphoneValue = " + connectTypeIphoneValue);
             switch (connectTypeIphoneValue) {
-                case CONNECTED_BY_WIFI:
-                    WifiConnectManager.getInstance().startWifiConnectThread();
-                    break;
-                case CONNECTED_BY_USB_TETHERING:
-                    IphoneUsbTethering.getInstance().startUsbTetheringConnectThread();
-                    break;
-                case CONNECTED_BY_EAN:
-                    EanConnectManager.getInstance().startEanConnectThread();
-                    break;
-                case CONNECTED_BY_USBMUXD:
-                    UsbMuxdConnect.getInstance().startUsbMuxdConnectThread();
-                    break;
                 default:
-                    LogUtil.e(TAG, "get ios connect type error");
-                    EanConnectManager.getInstance().startEanConnectThread();
+                    LogUtil.e("ConnectManager", "get ios connect type error");
+                    if (CarlifeConfUtil.getInstance().getIntProperty("CONNECT_TYPE_ANDROID") == 1)
+                        AOAConnectManager.getInstance().startAOAConnectThread();
+                case 5:
                     break;
             }
             int connectTypeAndroidProperty = CarlifeConfUtil.getInstance().getIntProperty(
@@ -239,23 +229,10 @@ public class ConnectManager {
             connectTypeIphoneValue = getIphoneConnectType();
             LogUtil.e(TAG, "ConnectTypeIphoneValue = " + connectTypeIphoneValue);
             switch (connectTypeIphoneValue) {
-                case CONNECTED_BY_WIFI:
-                    WifiConnectManager.getInstance().stopWifiConnectThread();
-                    break;
-                case CONNECTED_BY_USB_TETHERING:
-                    IphoneUsbTethering.getInstance().stopUsbTetheringConnectThread();
-                    break;
-                case CONNECTED_BY_EAN:
-                    EanConnectManager.getInstance().stopEanConnectThread();
-                    EanConnectManager.getInstance().eanUinit();
-                    break;
-                case CONNECTED_BY_USBMUXD:
-                    UsbMuxdConnect.getInstance().stopUsbMuxdConnectThread();
-                    break;
                 default:
-                    LogUtil.e(TAG, "get ios connect type error");
-                    EanConnectManager.getInstance().stopEanConnectThread();
-                    EanConnectManager.getInstance().eanUinit();
+                    LogUtil.e("ConnectManager", "get ios connect type error");
+                    ConnectClient.getInstance().setIsConnecting(false);
+                case 5:
                     break;
             }
             ConnectClient.getInstance().setIsConnecting(false);

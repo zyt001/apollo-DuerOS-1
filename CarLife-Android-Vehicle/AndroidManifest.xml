@@ -17,13 +17,8 @@
  *****************************************************************************/
   -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.baidu.carlifevehicle"
-    android:versionCode="15"
-    android:versionName="3.0.0">
+    package="com.baidu.carlifevehicle">
 
-    <uses-sdk
-        android:minSdkVersion="16"
-        android:targetSdkVersion="21" />
 
     <uses-feature android:name="android.hardware.usb.host" />
 
@@ -51,10 +46,10 @@
         <activity
             android:name="com.baidu.carlifevehicle.BaseActivity"
             android:label="@string/title_activity_base"
-            android:parentActivityName="android.support.v4.app.FragmentActivity">
+            android:parentActivityName="androidx.core.app.FragmentActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="android.support.v4.app.FragmentActivity" />
+                android:value="androidx.core.app.FragmentActivity" />
         </activity>
         <activity
             android:name="com.baidu.carlifevehicle.CarlifeActivity"

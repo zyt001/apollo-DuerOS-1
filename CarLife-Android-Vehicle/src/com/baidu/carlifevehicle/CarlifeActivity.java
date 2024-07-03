@@ -197,6 +197,7 @@ public class CarlifeActivity extends BaseActivity implements SurfaceHolder.Callb
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -228,7 +229,7 @@ public class CarlifeActivity extends BaseActivity implements SurfaceHolder.Callb
         super.onResume();
         mIsForeground = true;
         fullScreen();
-        showTouch();
+//        showTouch();
     }
 
     private void showTouch() {
@@ -278,7 +279,7 @@ public class CarlifeActivity extends BaseActivity implements SurfaceHolder.Callb
         VoiceManager.getInstance().onActivityPause();
         CarlifeUtil.sendVideoPauseMsg();
         mIsForeground = false;
-        closeTouch();
+//        closeTouch();
     }
 
     @Override
@@ -297,7 +298,7 @@ public class CarlifeActivity extends BaseActivity implements SurfaceHolder.Callb
 
         VoiceManager.getInstance().uninit();
         ErrorCodeReport.getInterface().writeErrorCodeToFile();
-        ConnectNcmDriverClient.getInstance().stopNcmDriverClientThread();
+//        ConnectNcmDriverClient.getInstance().stopNcmDriverClientThread();
 
         LogUtil.e(TAG, "++++++++++++++++++++Baidu Carlife End++++++++++++++++++++");
 
@@ -986,11 +987,11 @@ public class CarlifeActivity extends BaseActivity implements SurfaceHolder.Callb
         ModuleStatusManage.initModuleStatus();
         FeatureConfigManager.getInstance().init(mContext);
 
-        CarlifeUtil.dumpCarlifeFile();
+        //CarlifeUtil.dumpCarlifeFile();
 
         ConnectManager.getInstance().init(this);
         ConnectClient.getInstance().init(this);
-        ConnectNcmDriverClient.getInstance().startNcmDriverClientThread();
+        //ConnectNcmDriverClient.getInstance().startNcmDriverClientThread();
 
         int connectTypeAndroidProperty = CarlifeConfUtil.getInstance().getIntProperty(
                 CarlifeConfUtil.KEY_INT_CONNECT_TYPE_ANDROID);

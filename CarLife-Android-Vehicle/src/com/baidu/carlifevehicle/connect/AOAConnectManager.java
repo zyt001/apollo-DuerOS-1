@@ -80,9 +80,9 @@ public class AOAConnectManager {
         stopAOAReadThread();
         stopSocketReadThread();
         AOAHostSetup.getInstance().uninitUsbDevice();
-        if (ConnectManager.getInstance().getConnectType() == ConnectManager.CONNECTED_BY_AOA) {
-            AOAHostSetup.getInstance().resetUsb();
-        }
+//        if (ConnectManager.getInstance().getConnectType() == ConnectManager.CONNECTED_BY_AOA) {
+//            AOAHostSetup.getInstance().resetUsb();
+//        }
     }
 
     public void startAOAConnectThread() {
